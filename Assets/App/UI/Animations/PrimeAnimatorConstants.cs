@@ -19,9 +19,9 @@ namespace App.UI.Animations
 
         public const int VIBRATO = 10;
         public const float ELASTICITY = 1;
-        public const int NUMBER_OF_LOOPS = -1;
+        public const int NUMBER_OF_LOOPS = 1;
 
-        public const CycleMode CYCLE_MODE = CycleMode.Yoyo;
+        public const CycleMode CYCLE_MODE = CycleMode.Restart;
         public const EaseType EASY_TYPE = EaseType.Ease;
 
         public const Ease EASE = Ease.Linear;

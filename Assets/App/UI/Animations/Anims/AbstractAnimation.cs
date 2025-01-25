@@ -5,7 +5,29 @@ using System;
 namespace App.UI.Animations
 {
     [Serializable]
-    public abstract class AbstractAnimation<T> where T : struct
+    public abstract class AbstractAnimation<T> : AbstractAnimation where T : struct
+    {
+        [field: SerializeField] public T From { get; private set; }
+        [field: SerializeField] public T To { get; private set; }
+        [field: SerializeField] public T By { get; private set; }
+
+        protected AbstractAnimation(AnimationType animationType)
+        {
+            Reset(animationType);
+        }
+
+        public override void Reset(AnimationType animationType)
+        {
+            base.Reset(animationType);
+
+            From = default;
+            To = default;
+            By = default;
+        }
+    }
+
+    [Serializable]
+    public abstract class AbstractAnimation
     {
         public float TotalDuration
         {
@@ -23,13 +45,9 @@ namespace App.UI.Animations
         [field: SerializeField] public float StartDelay { get; private set; }
         [field: SerializeField] public float Duration { get; private set; }
 
-        [field: SerializeField] public T From { get; private set; }
-        [field: SerializeField] public T To { get; private set; }
-        [field: SerializeField] public T By { get; private set; }
-
         [field: SerializeField] public int Vibrato { get; private set; }
         [field: SerializeField] public float Elasticity { get; private set; }
-        [field: SerializeField] public int NumberOfLoops { get; private set; }
+        [field: SerializeField] public int NumberOfCycles { get; private set; }
 
         [field: SerializeField] public CycleMode CycleMode { get; private set; }
         [field: SerializeField] public EaseType EaseType { get; private set; }
@@ -37,12 +55,7 @@ namespace App.UI.Animations
         [field: SerializeField] public Ease Ease { get; private set; }
         [field: SerializeField] public AnimationCurve AnimationCurve { get; private set; }
 
-        public AbstractAnimation(AnimationType animationType)
-        {
-            Reset(animationType);
-        }
-
-        public void Reset(AnimationType animationType)
+        public virtual void Reset(AnimationType animationType)
         {
             AnimationType = animationType;
 
@@ -52,13 +65,9 @@ namespace App.UI.Animations
             StartDelay = PrimeAnimatorConstants.START_DELAY;
             Duration = PrimeAnimatorConstants.DURATION;
 
-            From = default;
-            To = default;
-            By = default;
-
             Vibrato = PrimeAnimatorConstants.VIBRATO;
             Elasticity = PrimeAnimatorConstants.ELASTICITY;
-            NumberOfLoops = PrimeAnimatorConstants.NUMBER_OF_LOOPS;
+            NumberOfCycles = PrimeAnimatorConstants.NUMBER_OF_LOOPS;
 
             CycleMode = PrimeAnimatorConstants.CYCLE_MODE;
             EaseType = PrimeAnimatorConstants.EASY_TYPE;
