@@ -26,6 +26,7 @@ namespace App.UI.Animations
         }
     }
 
+
     [Serializable]
     public abstract class AbstractAnimation
     {
@@ -74,6 +75,16 @@ namespace App.UI.Animations
 
             Ease = PrimeAnimatorConstants.EASE;
             AnimationCurve = new AnimationCurve();
+        }
+
+        public Easing GetEasing()
+        {
+            return EaseType switch
+            {
+                EaseType.Ease => Ease,
+                EaseType.AnimationCurve => AnimationCurve,
+                _ => throw new NotImplementedException()
+            };
         }
     }
 }
