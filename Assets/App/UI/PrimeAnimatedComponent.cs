@@ -17,11 +17,11 @@ namespace App.UI
         public abstract void Show(bool withoutAnimation = false);
         public abstract void Hide(bool withoutAnimation = false);
 
+        public abstract UniTaskVoid ShowAsync();
+        public abstract UniTaskVoid HideAsync();
+
         protected abstract void ShowInstantly();
         protected abstract void HideInstantly();
-
-        protected abstract UniTaskVoid ShowAsync();
-        protected abstract UniTaskVoid HideAsync();
 
         protected override void Reset()
         {
