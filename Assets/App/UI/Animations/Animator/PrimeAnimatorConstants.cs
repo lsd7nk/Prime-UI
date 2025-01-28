@@ -9,6 +9,8 @@ namespace App.UI.Animations
         public static Vector3 START_ROTATION = Vector3.zero;
         public static Vector3 START_SCALE = Vector3.one;
 
+        public const int UNI_TASK_DELAY_MULTIPLIER = 1000;
+
         public const float START_ALPHA = 1f;
 
         public const bool IS_ENABLED = false;
