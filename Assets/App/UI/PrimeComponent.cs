@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace App.UI
 {
-    [DisallowMultipleComponent, RequireComponent(typeof(RectTransform))]
+    [RequireComponent(typeof(RectTransform))]
     public abstract class PrimeComponent : MonoBehaviour
     {
         public RectTransform RectTransform

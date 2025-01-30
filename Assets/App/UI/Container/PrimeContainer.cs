@@ -6,10 +6,9 @@ using System;
 namespace App.UI.Container
 {
     [Serializable]
-    public sealed class PrimeContainer : MonoBehaviour
+    public sealed class PrimeContainer : PrimeComponent
     {
         [field: SerializeField] public GraphicRaycaster GraphicRaycaster { get; private set; }
-        [field: SerializeField] public RectTransform RectTransform { get; private set; }
         [field: SerializeField] public CanvasGroup CanvasGroup { get; private set; }
 
         public Vector3 StartPosition { get; private set; } = PrimeAnimatorConstants.START_POSITION;
@@ -34,6 +33,11 @@ namespace App.UI.Container
 
         public void ResetAlpha()
         {
+            if (CanvasGroup == null)
+            {
+                return;
+            }
+
             CanvasGroup.alpha = StartAlpha;
         }
 
