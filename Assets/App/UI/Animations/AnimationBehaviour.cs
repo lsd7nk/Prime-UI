@@ -12,8 +12,6 @@ namespace Prime.UI.Animations
         [field: SerializeField] public UnityEvent OnStartEvent { get; private set; }
         [field: SerializeField] public UnityEvent OnFinishEvent { get; private set; }
 
-        [field: SerializeField] public bool WithoutAnimation { get; private set; }
-
         public AnimationBehaviour(AnimationType animationType)
         {
             Reset(animationType);
