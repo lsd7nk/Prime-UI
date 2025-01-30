@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine.Events;
 using UnityEngine;
 using System;
@@ -7,22 +8,136 @@ namespace Prime.UI.Animations
     [Serializable]
     public sealed class AnimationBehaviour
     {
-        [field: SerializeField] public AnimationsContainer Animations { get; private set; }
+        [SerializeField] private AnimationsContainer _animations;
 
-        [field: SerializeField] public UnityEvent OnStartEvent { get; private set; }
-        [field: SerializeField] public UnityEvent OnFinishEvent { get; private set; }
+        [SerializeField] private UnityEvent _onStartEvent;
+        [SerializeField] private UnityEvent _onFinishEvent;
 
         public AnimationBehaviour(AnimationType animationType)
         {
             Reset(animationType);
         }
 
+        public void Execute(Container animatedContainer, bool withoutAnimation = false,
+            Action onStartCallback = null, Action onFinishCallback = null)
+        {
+            if (withoutAnimation)
+            {
+                ExecuteInstantly(animatedContainer);
+            }
+            else
+            {
+                ExecuteAsync(animatedContainer, onStartCallback, onFinishCallback).Forget();
+            }
+        }
+
+        public void ExecuteInstantly(Container animatedContainer)
+        {
+            _onStartEvent.Invoke();
+
+            var endMoveValue = AnimatorUtils.GetMoveTo(animatedContainer.RectTransform,
+                _animations.Move, animatedContainer.StartPosition);
+
+            animatedContainer.ResetPosition();
+            Animator.MoveInstantly(animatedContainer.RectTransform, endMoveValue);
+
+            var endRotateValue = AnimatorUtils.GetRotateTo(_animations.Rotate,
+                animatedContainer.StartRotation);
+
+            animatedContainer.ResetRotation();
+            Animator.RotateInstantly(animatedContainer.RectTransform, endRotateValue);
+
+            var endScaleValue = AnimatorUtils.GetScaleTo(_animations.Scale,
+                animatedContainer.StartScale);
+
+            animatedContainer.ResetScale();
+            Animator.ScaleInstantly(animatedContainer.RectTransform, endScaleValue);
+
+            var endFadeValue = AnimatorUtils.GetFadeTo(_animations.Fade,
+                animatedContainer.StartAlpha);
+
+            animatedContainer.ResetAlpha();
+            Animator.FadeInstantly(animatedContainer.CanvasGroup, endFadeValue);
+
+            _onFinishEvent.Invoke();
+        }
+
+        public async UniTask ExecuteAsync(Container animatedContainer,
+            Action onStartCallback = null, Action onFinishCallback = null)
+        {
+            _onStartEvent.Invoke();
+            onStartCallback?.Invoke();
+
+#pragma warning disable CS4014
+            if (_animations.Move.IsEnabled)
+            {
+                var startValue = AnimatorUtils.GetMoveFrom(animatedContainer.RectTransform,
+                    _animations.Move, animatedContainer.StartPosition);
+                var endValue = AnimatorUtils.GetMoveTo(animatedContainer.RectTransform,
+                    _animations.Move, animatedContainer.StartPosition);
+
+                Animator.Move(animatedContainer.RectTransform, _animations.Move, startValue, endValue);
+            }
+            else
+            {
+                animatedContainer.ResetPosition();
+            }
+
+            if (_animations.Rotate.IsEnabled)
+            {
+                var startValue = AnimatorUtils.GetRotateFrom(_animations.Rotate,
+                    animatedContainer.StartRotation);
+                var endValue = AnimatorUtils.GetRotateTo(_animations.Rotate,
+                    animatedContainer.StartRotation);
+
+                Animator.Rotate(animatedContainer.RectTransform, _animations.Rotate, startValue, endValue);
+            }
+            else
+            {
+                animatedContainer.ResetRotation();
+            }
+
+            if (_animations.Scale.IsEnabled)
+            {
+                var startValue = AnimatorUtils.GetScaleFrom(_animations.Scale,
+                    animatedContainer.StartScale);
+                var endValue = AnimatorUtils.GetScaleTo(_animations.Scale,
+                    animatedContainer.StartScale);
+
+                Animator.Scale(animatedContainer.RectTransform, _animations.Scale, startValue, endValue);
+            }
+            else
+            {
+                animatedContainer.ResetScale();
+            }
+
+            if (_animations.Fade.IsEnabled)
+            {
+                var startValue = AnimatorUtils.GetFadeFrom(_animations.Fade,
+                    animatedContainer.StartAlpha);
+                var endValue = AnimatorUtils.GetFadeTo(_animations.Fade,
+                    animatedContainer.StartAlpha);
+
+                Animator.Fade(animatedContainer.CanvasGroup, _animations.Fade, startValue, endValue);
+            }
+            else
+            {
+                animatedContainer.ResetAlpha();
+            }
+#pragma warning restore CS4014
+
+            await UniTask.Delay((int)(_animations.TotalDuration * AnimatorConstants.UNI_TASK_DELAY_MULTIPLIER));
+
+            _onFinishEvent.Invoke();
+            onFinishCallback?.Invoke();
+        }
+
         public void Reset(AnimationType animationType)
         {
-            Animations = new AnimationsContainer(animationType);
+            _animations = new AnimationsContainer(animationType);
 
-            OnStartEvent = new UnityEvent();
-            OnFinishEvent = new UnityEvent();
+            _onStartEvent?.RemoveAllListeners();
+            _onFinishEvent?.RemoveAllListeners();
         }
     }
 }
