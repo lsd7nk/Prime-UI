@@ -6,7 +6,7 @@ using System;
 namespace Prime.UI
 {
     [DisallowMultipleComponent]
-    public abstract class AnimatedComponent : BaseComponent
+    public abstract class AnimatedComponent : MonoBehaviour
     {
         public event Action OnShowStartEvent;
         public event Action OnShowFinishEvent;
@@ -44,20 +44,18 @@ namespace Prime.UI
             await _hideBehaviour.ExecuteAsync(_animatedContainer);
         }
 
-        protected void ShowInstantly()
+        public void ShowInstantly()
         {
             _showBehaviour.ExecuteInstantly(_animatedContainer);
         }
 
-        protected virtual void HideInstantly()
+        public virtual void HideInstantly()
         {
             _hideBehaviour.ExecuteInstantly(_animatedContainer);
         }
 
-        protected override void Reset()
+        protected virtual void Reset()
         {
-            base.Reset();
-
             _showBehaviour = new AnimationBehaviour(AnimationType.Show);
             _hideBehaviour = new AnimationBehaviour(AnimationType.Hide);
         }

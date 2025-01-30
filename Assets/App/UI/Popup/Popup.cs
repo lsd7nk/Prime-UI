@@ -20,7 +20,7 @@ namespace Prime.UI.Popup
             Destroy(gameObject);
         }
 
-        protected override void HideInstantly()
+        public override void HideInstantly()
         {
             base.HideInstantly();
 
