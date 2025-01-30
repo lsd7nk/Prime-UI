@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace App.UI.Animations
+namespace Prime.UI.Animations
 {
-    public static class PrimeAnimatorUtils
+    public static class AnimatorUtils
     {
         public static Vector3 GetMoveFrom(RectTransform target, MoveAnimation animation, Vector3 startValue)
         {
@@ -18,7 +18,7 @@ namespace App.UI.Animations
                     ? animation.From
                     : startValue,
 
-                _ => PrimeAnimatorConstants.START_POSITION
+                _ => AnimatorConstants.START_POSITION
             };
         }
 
@@ -36,7 +36,7 @@ namespace App.UI.Animations
                         ? animation.CustomPosition
                         : startValue),
 
-                _ => PrimeAnimatorConstants.START_POSITION
+                _ => AnimatorConstants.START_POSITION
             };
         }
 
@@ -49,7 +49,7 @@ namespace App.UI.Animations
                     ? animation.From
                     : startValue,
 
-                _ => PrimeAnimatorConstants.START_ROTATION
+                _ => AnimatorConstants.START_ROTATION
             };
         }
 
@@ -62,7 +62,7 @@ namespace App.UI.Animations
                     : startValue,
                 AnimationType.Hide => animation.To,
 
-                _ => PrimeAnimatorConstants.START_POSITION
+                _ => AnimatorConstants.START_POSITION
             };
         }
 
@@ -75,7 +75,7 @@ namespace App.UI.Animations
                     ? animation.From
                     : startValue,
 
-                _ => PrimeAnimatorConstants.START_SCALE
+                _ => AnimatorConstants.START_SCALE
             };
         }
 
@@ -88,7 +88,7 @@ namespace App.UI.Animations
                     : startValue,
                 AnimationType.Hide => animation.To,
 
-                _ => PrimeAnimatorConstants.START_SCALE
+                _ => AnimatorConstants.START_SCALE
             };
         }
 
@@ -101,7 +101,7 @@ namespace App.UI.Animations
                     ? animation.From
                     : startValue,
 
-                _ => PrimeAnimatorConstants.START_ALPHA
+                _ => AnimatorConstants.START_ALPHA
             };
         }
 
@@ -114,7 +114,7 @@ namespace App.UI.Animations
                     : startValue,
                 AnimationType.Hide => animation.To,
 
-                _ => PrimeAnimatorConstants.START_ALPHA
+                _ => AnimatorConstants.START_ALPHA
             };
         }
 

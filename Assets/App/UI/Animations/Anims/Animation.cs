@@ -2,15 +2,15 @@ using UnityEngine;
 using PrimeTween;
 using System;
 
-namespace App.UI.Animations
+namespace Prime.UI.Animations
 {
     [Serializable]
-    public abstract class AbstractAnimation<T> : AbstractAnimation where T : struct
+    public abstract class Animation<T> : Animation where T : struct
     {
         [field: SerializeField] public T From { get; private set; }
         [field: SerializeField] public T To { get; private set; }
 
-        protected AbstractAnimation(AnimationType animationType)
+        protected Animation(AnimationType animationType)
         {
             Reset(animationType);
         }
@@ -26,7 +26,7 @@ namespace App.UI.Animations
 
 
     [Serializable]
-    public abstract class AbstractAnimation
+    public abstract class Animation
     {
         public float TotalDuration
         {
@@ -58,20 +58,20 @@ namespace App.UI.Animations
         {
             AnimationType = animationType;
 
-            IsEnabled = PrimeAnimatorConstants.IS_ENABLED;
-            UseCustomFromAndTo = PrimeAnimatorConstants.USE_CUSTOM_FROM_AND_TO;
+            IsEnabled = AnimatorConstants.IS_ENABLED;
+            UseCustomFromAndTo = AnimatorConstants.USE_CUSTOM_FROM_AND_TO;
 
-            StartDelay = PrimeAnimatorConstants.START_DELAY;
-            Duration = PrimeAnimatorConstants.DURATION;
+            StartDelay = AnimatorConstants.START_DELAY;
+            Duration = AnimatorConstants.DURATION;
 
-            Vibrato = PrimeAnimatorConstants.VIBRATO;
-            Elasticity = PrimeAnimatorConstants.ELASTICITY;
-            NumberOfCycles = PrimeAnimatorConstants.NUMBER_OF_LOOPS;
+            Vibrato = AnimatorConstants.VIBRATO;
+            Elasticity = AnimatorConstants.ELASTICITY;
+            NumberOfCycles = AnimatorConstants.NUMBER_OF_LOOPS;
 
-            CycleMode = PrimeAnimatorConstants.CYCLE_MODE;
-            EaseType = PrimeAnimatorConstants.EASY_TYPE;
+            CycleMode = AnimatorConstants.CYCLE_MODE;
+            EaseType = AnimatorConstants.EASY_TYPE;
 
-            Ease = PrimeAnimatorConstants.EASE;
+            Ease = AnimatorConstants.EASE;
             AnimationCurve = new AnimationCurve();
         }
 

@@ -1,13 +1,10 @@
 ﻿using System;
 
-namespace App.UI.Animations
+namespace Prime.UI.Animations
 {
     [Serializable]
-    public sealed class FadeAnimation : AbstractAnimation<float>
+    public sealed class FadeAnimation : Animation<float>
     {
-        public FadeAnimation(AnimationType animationType) : base(animationType)
-        {
-
-        }
+        public FadeAnimation(AnimationType animationType) : base(animationType) { }
     }
 }

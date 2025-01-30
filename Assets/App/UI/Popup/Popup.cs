@@ -1,19 +1,18 @@
 using Cysharp.Threading.Tasks;
-using App.UI.Container;
 using UnityEngine;
 
-namespace App.UI.Popup
+namespace Prime.UI.Popup
 {
-    public sealed class PrimePopup : PrimeAnimatedComponent
+    public sealed class Popup : AnimatedComponent
     {
-        [field: SerializeField] public PrimeContainer Overlay { get; private set; }
-        [field: SerializeField] public bool DestroyAfterHide { get; private set; }
+        [SerializeField] private Container _overlay;
+        [SerializeField] private bool _deestroyAfterHide;
 
         public async override UniTask HideAsync()
         {
             await base.HideAsync();
 
-            if (!DestroyAfterHide)
+            if (!_deestroyAfterHide)
             {
                 return;
             }
@@ -21,11 +20,11 @@ namespace App.UI.Popup
             Destroy(gameObject);
         }
 
-        protected override void HideInstantly()
+        public override void HideInstantly()
         {
             base.HideInstantly();
 
-            if (!DestroyAfterHide)
+            if (!_deestroyAfterHide)
             {
                 return;
             }

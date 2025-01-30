@@ -1,9 +1,9 @@
 using UnityEngine;
 using PrimeTween;
 
-namespace App.UI.Animations
+namespace Prime.UI.Animations
 {
-    public static class PrimeAnimator
+    public static class Animator
     {
         #region animations
         public static void RotateInstantly(RectTransform target, Vector3 endValue)
