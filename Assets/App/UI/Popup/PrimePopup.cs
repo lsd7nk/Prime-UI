@@ -7,15 +7,9 @@ namespace App.UI.Popup
 {
     public sealed class PrimePopup : PrimeAnimatedComponent
     {
-        [field: SerializeField] public PrimeContainer Container { get; private set; }
-        [field: SerializeField] public PrimeContainer Overlay { get; private set; }
+        [field: Space(10), SerializeField] public PrimeContainer Container { get; private set; }
 
         [field: SerializeField] public bool DestroyAfterHide { get; private set; }
-
-        private void Awake()
-        {
-            Show();
-        }
 
         public override void Show(bool withoutAnimation = false)
         {
@@ -45,6 +39,7 @@ namespace App.UI.Popup
         {
             ShowBehaviour.OnStartEvent.Invoke();
 
+#pragma warning disable CS4014
             if (ShowBehaviour.Animation.Move.IsEnabled)
             {
                 var startValue = PrimeAnimatorUtils.GetMoveFrom(Container.RectTransform,
@@ -52,7 +47,7 @@ namespace App.UI.Popup
                 var endValue = PrimeAnimatorUtils.GetMoveTo(Container.RectTransform,
                     ShowBehaviour.Animation.Move, Container.StartPosition);
 
-                _ = PrimeAnimator.Move(Container.RectTransform, ShowBehaviour.Animation.Move, startValue, endValue);
+                PrimeAnimator.Move(Container.RectTransform, ShowBehaviour.Animation.Move, startValue, endValue);
             }
             else
             {
@@ -66,7 +61,7 @@ namespace App.UI.Popup
                 var endValue = PrimeAnimatorUtils.GetRotateTo(ShowBehaviour.Animation.Rotate,
                     Container.StartPosition);
 
-                _ = PrimeAnimator.Rotate(Container.RectTransform, ShowBehaviour.Animation.Rotate, startValue, endValue);
+                PrimeAnimator.Rotate(Container.RectTransform, ShowBehaviour.Animation.Rotate, startValue, endValue);
             }
             else
             {
@@ -80,7 +75,7 @@ namespace App.UI.Popup
                 var endValue = PrimeAnimatorUtils.GetScaleTo(ShowBehaviour.Animation.Scale,
                     Container.StartPosition);
 
-                _ = PrimeAnimator.Scale(Container.RectTransform, ShowBehaviour.Animation.Scale, startValue, endValue);
+                PrimeAnimator.Scale(Container.RectTransform, ShowBehaviour.Animation.Scale, startValue, endValue);
             }
             else
             {
@@ -94,12 +89,13 @@ namespace App.UI.Popup
                 var endValue = PrimeAnimatorUtils.GetFadeTo(ShowBehaviour.Animation.Fade,
                     Container.StartAlpha);
 
-                _ = PrimeAnimator.Fade(Container.CanvasGroup, ShowBehaviour.Animation.Fade, startValue, endValue);
+                PrimeAnimator.Fade(Container.CanvasGroup, ShowBehaviour.Animation.Fade, startValue, endValue);
             }
             else
             {
                 Container.ResetAlpha();
             }
+#pragma warning restore CS4014
 
             await UniTask.Delay((int)(ShowBehaviour.Animation.TotalDuration * PrimeAnimatorConstants.UNI_TASK_DELAY_MULTIPLIER));
 
@@ -110,6 +106,7 @@ namespace App.UI.Popup
         {
             HideBehaviour.OnStartEvent.Invoke();
 
+#pragma warning disable CS4014
             if (HideBehaviour.Animation.Move.IsEnabled)
             {
                 var startValue = PrimeAnimatorUtils.GetMoveFrom(Container.RectTransform,
@@ -117,7 +114,7 @@ namespace App.UI.Popup
                 var endValue = PrimeAnimatorUtils.GetMoveTo(Container.RectTransform,
                     HideBehaviour.Animation.Move, Container.StartPosition);
 
-                _ = PrimeAnimator.Move(Container.RectTransform, HideBehaviour.Animation.Move, startValue, endValue);
+                PrimeAnimator.Move(Container.RectTransform, HideBehaviour.Animation.Move, startValue, endValue);
             }
             else
             {
@@ -131,7 +128,7 @@ namespace App.UI.Popup
                 var endValue = PrimeAnimatorUtils.GetRotateTo(HideBehaviour.Animation.Rotate,
                     Container.StartPosition);
 
-                _ = PrimeAnimator.Rotate(Container.RectTransform, HideBehaviour.Animation.Rotate, startValue, endValue);
+                PrimeAnimator.Rotate(Container.RectTransform, HideBehaviour.Animation.Rotate, startValue, endValue);
             }
             else
             {
@@ -145,7 +142,7 @@ namespace App.UI.Popup
                 var endValue = PrimeAnimatorUtils.GetScaleTo(HideBehaviour.Animation.Scale,
                     Container.StartPosition);
 
-                _ = PrimeAnimator.Scale(Container.RectTransform, HideBehaviour.Animation.Scale, startValue, endValue);
+                PrimeAnimator.Scale(Container.RectTransform, HideBehaviour.Animation.Scale, startValue, endValue);
             }
             else
             {
@@ -159,12 +156,13 @@ namespace App.UI.Popup
                 var endValue = PrimeAnimatorUtils.GetFadeTo(HideBehaviour.Animation.Fade,
                     Container.StartAlpha);
 
-                _ = PrimeAnimator.Fade(Container.CanvasGroup, HideBehaviour.Animation.Fade, startValue, endValue);
+                PrimeAnimator.Fade(Container.CanvasGroup, HideBehaviour.Animation.Fade, startValue, endValue);
             }
             else
             {
                 Container.ResetAlpha();
             }
+#pragma warning restore CS4014
 
             await UniTask.Delay((int)(HideBehaviour.Animation.TotalDuration * PrimeAnimatorConstants.UNI_TASK_DELAY_MULTIPLIER));
 

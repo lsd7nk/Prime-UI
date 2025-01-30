@@ -9,7 +9,6 @@ namespace App.UI.Animations
     {
         [field: SerializeField] public T From { get; private set; }
         [field: SerializeField] public T To { get; private set; }
-        [field: SerializeField] public T By { get; private set; }
 
         protected AbstractAnimation(AnimationType animationType)
         {
@@ -22,7 +21,6 @@ namespace App.UI.Animations
 
             From = default;
             To = default;
-            By = default;
         }
     }
 
