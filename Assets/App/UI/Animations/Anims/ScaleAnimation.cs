@@ -6,9 +6,6 @@ namespace Prime.UI.Animations
     [Serializable]
     public sealed class ScaleAnimation : Animation<Vector3>
     {
-        public ScaleAnimation(AnimationType animationType) : base(animationType)
-        {
-
-        }
+        public ScaleAnimation(AnimationType animationType) : base(animationType) { }
     }
 }

@@ -5,14 +5,14 @@ namespace Prime.UI.Popup
 {
     public sealed class Popup : AnimatedComponent
     {
-        [field: SerializeField] public Container Overlay { get; private set; }
-        [field: SerializeField] public bool DestroyAfterHide { get; private set; }
+        [SerializeField] private Container _overlay;
+        [SerializeField] private bool _deestroyAfterHide;
 
         public async override UniTask HideAsync()
         {
             await base.HideAsync();
 
-            if (!DestroyAfterHide)
+            if (!_deestroyAfterHide)
             {
                 return;
             }
@@ -24,7 +24,7 @@ namespace Prime.UI.Popup
         {
             base.HideInstantly();
 
-            if (!DestroyAfterHide)
+            if (!_deestroyAfterHide)
             {
                 return;
             }

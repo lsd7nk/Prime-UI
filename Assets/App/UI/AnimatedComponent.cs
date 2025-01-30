@@ -7,10 +7,10 @@ namespace Prime.UI
     [DisallowMultipleComponent]
     public abstract class AnimatedComponent : BaseComponent
     {
-        [field: SerializeField] public AnimationBehaviour ShowBehaviour { get; private set; }
-        [field: SerializeField] public AnimationBehaviour HideBehaviour { get; private set; }
+        [SerializeField] private AnimationBehaviour _showBehaviour;
+        [SerializeField] private AnimationBehaviour _hideBehaviour;
 
-        [field: SerializeField] public Container AnimatedContainer { get; private set; }
+        [SerializeField] private Container _animatedContainer;
 
         public AnimatedComponent()
         {
@@ -43,59 +43,59 @@ namespace Prime.UI
 
         public async UniTask ShowAsync()
         {
-            ShowBehaviour.OnStartEvent.Invoke();
+            _showBehaviour.OnStartEvent.Invoke();
 
 #pragma warning disable CS4014
-            if (ShowBehaviour.Animations.Move.IsEnabled)
+            if (_showBehaviour.Animations.Move.IsEnabled)
             {
-                var startValue = AnimatorUtils.GetMoveFrom(AnimatedContainer.RectTransform,
-                    ShowBehaviour.Animations.Move, AnimatedContainer.StartPosition);
-                var endValue = AnimatorUtils.GetMoveTo(AnimatedContainer.RectTransform,
-                    ShowBehaviour.Animations.Move, AnimatedContainer.StartPosition);
+                var startValue = AnimatorUtils.GetMoveFrom(_animatedContainer.RectTransform,
+                    _showBehaviour.Animations.Move, _animatedContainer.StartPosition);
+                var endValue = AnimatorUtils.GetMoveTo(_animatedContainer.RectTransform,
+                    _showBehaviour.Animations.Move, _animatedContainer.StartPosition);
 
-                Animations.Animator.Move(AnimatedContainer.RectTransform, ShowBehaviour.Animations.Move, startValue, endValue);
+                Animations.Animator.Move(_animatedContainer.RectTransform, _showBehaviour.Animations.Move, startValue, endValue);
             }
             else
             {
                 ResetPosition();
             }
 
-            if (ShowBehaviour.Animations.Rotate.IsEnabled)
+            if (_showBehaviour.Animations.Rotate.IsEnabled)
             {
-                var startValue = AnimatorUtils.GetRotateFrom(ShowBehaviour.Animations.Rotate,
-                    AnimatedContainer.StartRotation);
-                var endValue = AnimatorUtils.GetRotateTo(ShowBehaviour.Animations.Rotate,
-                    AnimatedContainer.StartRotation);
+                var startValue = AnimatorUtils.GetRotateFrom(_showBehaviour.Animations.Rotate,
+                    _animatedContainer.StartRotation);
+                var endValue = AnimatorUtils.GetRotateTo(_showBehaviour.Animations.Rotate,
+                    _animatedContainer.StartRotation);
 
-                Animations.Animator.Rotate(AnimatedContainer.RectTransform, ShowBehaviour.Animations.Rotate, startValue, endValue);
+                Animations.Animator.Rotate(_animatedContainer.RectTransform, _showBehaviour.Animations.Rotate, startValue, endValue);
             }
             else
             {
                 ResetRotation();
             }
 
-            if (ShowBehaviour.Animations.Scale.IsEnabled)
+            if (_showBehaviour.Animations.Scale.IsEnabled)
             {
-                var startValue = AnimatorUtils.GetScaleFrom(ShowBehaviour.Animations.Scale,
-                    AnimatedContainer.StartScale);
-                var endValue = AnimatorUtils.GetScaleTo(ShowBehaviour.Animations.Scale,
-                    AnimatedContainer.StartScale);
+                var startValue = AnimatorUtils.GetScaleFrom(_showBehaviour.Animations.Scale,
+                    _animatedContainer.StartScale);
+                var endValue = AnimatorUtils.GetScaleTo(_showBehaviour.Animations.Scale,
+                    _animatedContainer.StartScale);
 
-                Animations.Animator.Scale(AnimatedContainer.RectTransform, ShowBehaviour.Animations.Scale, startValue, endValue);
+                Animations.Animator.Scale(_animatedContainer.RectTransform, _showBehaviour.Animations.Scale, startValue, endValue);
             }
             else
             {
                 ResetScale();
             }
 
-            if (ShowBehaviour.Animations.Fade.IsEnabled)
+            if (_showBehaviour.Animations.Fade.IsEnabled)
             {
-                var startValue = AnimatorUtils.GetFadeFrom(ShowBehaviour.Animations.Fade,
-                    AnimatedContainer.StartAlpha);
-                var endValue = AnimatorUtils.GetFadeTo(ShowBehaviour.Animations.Fade,
-                    AnimatedContainer.StartAlpha);
+                var startValue = AnimatorUtils.GetFadeFrom(_showBehaviour.Animations.Fade,
+                    _animatedContainer.StartAlpha);
+                var endValue = AnimatorUtils.GetFadeTo(_showBehaviour.Animations.Fade,
+                    _animatedContainer.StartAlpha);
 
-                Animations.Animator.Fade(AnimatedContainer.CanvasGroup, ShowBehaviour.Animations.Fade, startValue, endValue);
+                Animations.Animator.Fade(_animatedContainer.CanvasGroup, _showBehaviour.Animations.Fade, startValue, endValue);
             }
             else
             {
@@ -103,66 +103,66 @@ namespace Prime.UI
             }
 #pragma warning restore CS4014
 
-            await UniTask.Delay((int)(ShowBehaviour.Animations.TotalDuration * AnimatorConstants.UNI_TASK_DELAY_MULTIPLIER));
+            await UniTask.Delay((int)(_showBehaviour.Animations.TotalDuration * AnimatorConstants.UNI_TASK_DELAY_MULTIPLIER));
 
-            ShowBehaviour.OnFinishEvent.Invoke();
+            _showBehaviour.OnFinishEvent.Invoke();
         }
 
         public async virtual UniTask HideAsync()
         {
-            HideBehaviour.OnStartEvent.Invoke();
+            _hideBehaviour.OnStartEvent.Invoke();
 
 #pragma warning disable CS4014
-            if (HideBehaviour.Animations.Move.IsEnabled)
+            if (_hideBehaviour.Animations.Move.IsEnabled)
             {
-                var startValue = AnimatorUtils.GetMoveFrom(AnimatedContainer.RectTransform,
-                    HideBehaviour.Animations.Move, AnimatedContainer.StartPosition);
-                var endValue = AnimatorUtils.GetMoveTo(AnimatedContainer.RectTransform,
-                    HideBehaviour.Animations.Move, AnimatedContainer.StartPosition);
+                var startValue = AnimatorUtils.GetMoveFrom(_animatedContainer.RectTransform,
+                    _hideBehaviour.Animations.Move, _animatedContainer.StartPosition);
+                var endValue = AnimatorUtils.GetMoveTo(_animatedContainer.RectTransform,
+                    _hideBehaviour.Animations.Move, _animatedContainer.StartPosition);
 
-                Animations.Animator.Move(AnimatedContainer.RectTransform, HideBehaviour.Animations.Move, startValue, endValue);
+                Animations.Animator.Move(_animatedContainer.RectTransform, _hideBehaviour.Animations.Move, startValue, endValue);
             }
             else
             {
                 ResetPosition();
             }
 
-            if (HideBehaviour.Animations.Rotate.IsEnabled)
+            if (_hideBehaviour.Animations.Rotate.IsEnabled)
             {
-                var startValue = AnimatorUtils.GetRotateFrom(HideBehaviour.Animations.Rotate,
-                    AnimatedContainer.StartRotation);
-                var endValue = AnimatorUtils.GetRotateTo(HideBehaviour.Animations.Rotate,
-                    AnimatedContainer.StartRotation);
+                var startValue = AnimatorUtils.GetRotateFrom(_hideBehaviour.Animations.Rotate,
+                    _animatedContainer.StartRotation);
+                var endValue = AnimatorUtils.GetRotateTo(_hideBehaviour.Animations.Rotate,
+                    _animatedContainer.StartRotation);
 
-                Animations.Animator.Rotate(AnimatedContainer.RectTransform, HideBehaviour.Animations.Rotate, startValue, endValue);
+                Animations.Animator.Rotate(_animatedContainer.RectTransform, _hideBehaviour.Animations.Rotate, startValue, endValue);
             }
             else
             {
                 ResetRotation();
             }
 
-            if (HideBehaviour.Animations.Scale.IsEnabled)
+            if (_hideBehaviour.Animations.Scale.IsEnabled)
             {
-                var startValue = AnimatorUtils.GetScaleFrom(HideBehaviour.Animations.Scale,
-                    AnimatedContainer.StartScale);
-                var endValue = AnimatorUtils.GetScaleTo(HideBehaviour.Animations.Scale,
-                    AnimatedContainer.StartScale);
+                var startValue = AnimatorUtils.GetScaleFrom(_hideBehaviour.Animations.Scale,
+                    _animatedContainer.StartScale);
+                var endValue = AnimatorUtils.GetScaleTo(_hideBehaviour.Animations.Scale,
+                    _animatedContainer.StartScale);
 
-                Animations.Animator.Scale(AnimatedContainer.RectTransform, HideBehaviour.Animations.Scale, startValue, endValue);
+                Animations.Animator.Scale(_animatedContainer.RectTransform, _hideBehaviour.Animations.Scale, startValue, endValue);
             }
             else
             {
                 ResetScale();
             }
 
-            if (HideBehaviour.Animations.Fade.IsEnabled)
+            if (_hideBehaviour.Animations.Fade.IsEnabled)
             {
-                var startValue = AnimatorUtils.GetFadeFrom(HideBehaviour.Animations.Fade,
-                    AnimatedContainer.StartAlpha);
-                var endValue = AnimatorUtils.GetFadeTo(HideBehaviour.Animations.Fade,
-                    AnimatedContainer.StartAlpha);
+                var startValue = AnimatorUtils.GetFadeFrom(_hideBehaviour.Animations.Fade,
+                    _animatedContainer.StartAlpha);
+                var endValue = AnimatorUtils.GetFadeTo(_hideBehaviour.Animations.Fade,
+                    _animatedContainer.StartAlpha);
 
-                Animations.Animator.Fade(AnimatedContainer.CanvasGroup, HideBehaviour.Animations.Fade, startValue, endValue);
+                Animations.Animator.Fade(_animatedContainer.CanvasGroup, _hideBehaviour.Animations.Fade, startValue, endValue);
             }
             else
             {
@@ -170,99 +170,99 @@ namespace Prime.UI
             }
 #pragma warning restore CS4014
 
-            await UniTask.Delay((int)(HideBehaviour.Animations.TotalDuration * AnimatorConstants.UNI_TASK_DELAY_MULTIPLIER));
+            await UniTask.Delay((int)(_hideBehaviour.Animations.TotalDuration * AnimatorConstants.UNI_TASK_DELAY_MULTIPLIER));
 
-            HideBehaviour.OnFinishEvent.Invoke();
+            _hideBehaviour.OnFinishEvent.Invoke();
         }
 
         protected void ShowInstantly()
         {
-            ShowBehaviour.OnStartEvent.Invoke();
+            _showBehaviour.OnStartEvent.Invoke();
 
-            var endMoveValue = AnimatorUtils.GetMoveTo(AnimatedContainer.RectTransform,
-                ShowBehaviour.Animations.Move, AnimatedContainer.StartPosition);
+            var endMoveValue = AnimatorUtils.GetMoveTo(_animatedContainer.RectTransform,
+                _showBehaviour.Animations.Move, _animatedContainer.StartPosition);
 
             ResetPosition();
-            Animations.Animator.MoveInstantly(AnimatedContainer.RectTransform, endMoveValue);
+            Animations.Animator.MoveInstantly(_animatedContainer.RectTransform, endMoveValue);
 
-            var endRotateValue = AnimatorUtils.GetRotateTo(ShowBehaviour.Animations.Rotate,
-                AnimatedContainer.StartRotation);
+            var endRotateValue = AnimatorUtils.GetRotateTo(_showBehaviour.Animations.Rotate,
+                _animatedContainer.StartRotation);
 
             ResetRotation();
-            Animations.Animator.RotateInstantly(AnimatedContainer.RectTransform, endRotateValue);
+            Animations.Animator.RotateInstantly(_animatedContainer.RectTransform, endRotateValue);
 
-            var endScaleValue = AnimatorUtils.GetScaleTo(ShowBehaviour.Animations.Scale,
-                AnimatedContainer.StartScale);
+            var endScaleValue = AnimatorUtils.GetScaleTo(_showBehaviour.Animations.Scale,
+                _animatedContainer.StartScale);
 
             ResetScale();
-            Animations.Animator.ScaleInstantly(AnimatedContainer.RectTransform, endScaleValue);
+            Animations.Animator.ScaleInstantly(_animatedContainer.RectTransform, endScaleValue);
 
-            var endFadeValue = AnimatorUtils.GetFadeTo(ShowBehaviour.Animations.Fade,
-                AnimatedContainer.StartAlpha);
+            var endFadeValue = AnimatorUtils.GetFadeTo(_showBehaviour.Animations.Fade,
+                _animatedContainer.StartAlpha);
 
             ResetAlpha();
-            Animations.Animator.FadeInstantly(AnimatedContainer.CanvasGroup, endFadeValue);
+            Animations.Animator.FadeInstantly(_animatedContainer.CanvasGroup, endFadeValue);
 
-            ShowBehaviour.OnFinishEvent.Invoke();
+            _showBehaviour.OnFinishEvent.Invoke();
         }
 
         protected virtual void HideInstantly()
         {
-            HideBehaviour.OnStartEvent.Invoke();
+            _hideBehaviour.OnStartEvent.Invoke();
 
-            var endMoveValue = AnimatorUtils.GetMoveTo(AnimatedContainer.RectTransform,
-                HideBehaviour.Animations.Move, AnimatedContainer.StartPosition);
+            var endMoveValue = AnimatorUtils.GetMoveTo(_animatedContainer.RectTransform,
+                _hideBehaviour.Animations.Move, _animatedContainer.StartPosition);
 
             ResetPosition();
-            Animations.Animator.MoveInstantly(AnimatedContainer.RectTransform, endMoveValue);
+            Animations.Animator.MoveInstantly(_animatedContainer.RectTransform, endMoveValue);
 
-            var endRotateValue = AnimatorUtils.GetRotateTo(HideBehaviour.Animations.Rotate,
-                AnimatedContainer.StartRotation);
+            var endRotateValue = AnimatorUtils.GetRotateTo(_hideBehaviour.Animations.Rotate,
+                _animatedContainer.StartRotation);
 
             ResetRotation();
-            Animations.Animator.RotateInstantly(AnimatedContainer.RectTransform, endRotateValue);
+            Animations.Animator.RotateInstantly(_animatedContainer.RectTransform, endRotateValue);
 
-            var endScaleValue = AnimatorUtils.GetScaleTo(HideBehaviour.Animations.Scale,
-                AnimatedContainer.StartScale);
+            var endScaleValue = AnimatorUtils.GetScaleTo(_hideBehaviour.Animations.Scale,
+                _animatedContainer.StartScale);
 
             ResetScale();
-            Animations.Animator.ScaleInstantly(AnimatedContainer.RectTransform, endScaleValue);
+            Animations.Animator.ScaleInstantly(_animatedContainer.RectTransform, endScaleValue);
 
-            var endFadeValue = AnimatorUtils.GetFadeTo(HideBehaviour.Animations.Fade,
-                AnimatedContainer.StartAlpha);
+            var endFadeValue = AnimatorUtils.GetFadeTo(_hideBehaviour.Animations.Fade,
+                _animatedContainer.StartAlpha);
 
             ResetAlpha();
-            Animations.Animator.FadeInstantly(AnimatedContainer.CanvasGroup, endFadeValue);
+            Animations.Animator.FadeInstantly(_animatedContainer.CanvasGroup, endFadeValue);
 
-            HideBehaviour.OnFinishEvent.Invoke();
+            _hideBehaviour.OnFinishEvent.Invoke();
         }
 
         private void ResetPosition()
         {
-            AnimatedContainer.ResetPosition();
+            _animatedContainer.ResetPosition();
         }
 
         private void ResetRotation()
         {
-            AnimatedContainer.ResetRotation();
+            _animatedContainer.ResetRotation();
         }
 
         private void ResetScale()
         {
-            AnimatedContainer.ResetScale();
+            _animatedContainer.ResetScale();
         }
 
         private void ResetAlpha()
         {
-            AnimatedContainer.ResetAlpha();
+            _animatedContainer.ResetAlpha();
         }
 
         protected override void Reset()
         {
             base.Reset();
 
-            ShowBehaviour = new AnimationBehaviour(AnimationType.Show);
-            HideBehaviour = new AnimationBehaviour(AnimationType.Hide);
+            _showBehaviour = new AnimationBehaviour(AnimationType.Show);
+            _hideBehaviour = new AnimationBehaviour(AnimationType.Hide);
         }
     }
 }
