@@ -1,4 +1,4 @@
-namespace App.UI.Animations
+namespace Prime.UI.Animations
 {
     public enum DirectionType
     {

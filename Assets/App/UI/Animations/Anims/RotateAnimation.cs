@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System;
 
-namespace App.UI.Animations
+namespace Prime.UI.Animations
 {
     [Serializable]
-    public sealed class RotateAnimation : AbstractAnimation<Vector3>
+    public sealed class RotateAnimation : Animation<Vector3>
     {
         public RotateAnimation(AnimationType animationType) : base(animationType)
         {

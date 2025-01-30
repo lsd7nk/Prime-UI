@@ -1,20 +1,20 @@
-using App.UI.Animations;
+using Prime.UI.Animations;
 using UnityEngine.UI;
 using UnityEngine;
 using System;
 
-namespace App.UI.Container
+namespace Prime.UI
 {
     [Serializable]
-    public sealed class PrimeContainer : PrimeComponent
+    public sealed class Container : BaseComponent
     {
         [field: SerializeField] public GraphicRaycaster GraphicRaycaster { get; private set; }
         [field: SerializeField] public CanvasGroup CanvasGroup { get; private set; }
 
-        public Vector3 StartPosition { get; private set; } = PrimeAnimatorConstants.START_POSITION;
-        public Vector3 StartRotation { get; private set; } = PrimeAnimatorConstants.START_ROTATION;
-        public Vector3 StartScale { get; private set; } = PrimeAnimatorConstants.START_SCALE;
-        public float StartAlpha { get; private set; } = PrimeAnimatorConstants.START_ALPHA;
+        public Vector3 StartPosition { get; private set; } = AnimatorConstants.START_POSITION;
+        public Vector3 StartRotation { get; private set; } = AnimatorConstants.START_ROTATION;
+        public Vector3 StartScale { get; private set; } = AnimatorConstants.START_SCALE;
+        public float StartAlpha { get; private set; } = AnimatorConstants.START_ALPHA;
 
         public void ResetPosition()
         {

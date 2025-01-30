@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System;
 
-namespace App.UI.Animations
+namespace Prime.UI.Animations
 {
     [Serializable]
-    public sealed class MoveAnimation : AbstractAnimation<Vector3>
+    public sealed class MoveAnimation : Animation<Vector3>
     {
         [field: SerializeField] public Vector3 CustomPosition { get; private set; }
         [field: SerializeField] public DirectionType Direction { get; private set; }
@@ -12,7 +12,7 @@ namespace App.UI.Animations
         public MoveAnimation(AnimationType animationType) : base(animationType)
         {
             CustomPosition = default;
-            Direction = PrimeAnimatorConstants.DIRECTION;
+            Direction = AnimatorConstants.DIRECTION;
         }
     }
 }

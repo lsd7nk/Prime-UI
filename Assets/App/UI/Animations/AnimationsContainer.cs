@@ -1,10 +1,10 @@
 using UnityEngine;
 using System;
 
-namespace App.UI.Animations
+namespace Prime.UI.Animations
 {
     [Serializable]
-    public sealed class PrimeAnimation
+    public sealed class AnimationsContainer
     {
         public const float MAX_START_DELAY = 10000f;
         public const float MIN_TOTAL_DURATION = 0f;
@@ -61,7 +61,7 @@ namespace App.UI.Animations
         [field: SerializeField] public MoveAnimation Move { get; private set; }
         [field: SerializeField] public FadeAnimation Fade { get; private set; }
 
-        public PrimeAnimation(AnimationType animationType)
+        public AnimationsContainer(AnimationType animationType)
         {
             Reset(animationType);
         }

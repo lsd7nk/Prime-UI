@@ -1,9 +1,9 @@
 using UnityEngine;
 
-namespace App.UI
+namespace Prime.UI
 {
     [RequireComponent(typeof(RectTransform))]
-    public abstract class PrimeComponent : MonoBehaviour
+    public abstract class BaseComponent : MonoBehaviour
     {
         public RectTransform RectTransform
         {

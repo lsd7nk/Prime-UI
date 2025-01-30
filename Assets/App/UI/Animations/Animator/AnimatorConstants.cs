@@ -1,9 +1,9 @@
 using UnityEngine;
 using PrimeTween;
 
-namespace App.UI.Animations
+namespace Prime.UI.Animations
 {
-    public static class PrimeAnimatorConstants
+    public static class AnimatorConstants
     {
         public static Vector3 START_POSITION = Vector3.zero;
         public static Vector3 START_ROTATION = Vector3.zero;
