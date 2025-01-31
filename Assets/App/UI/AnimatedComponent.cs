@@ -14,8 +14,8 @@ namespace Prime.UI
         public event Action OnHideStartEvent;
         public event Action OnHideFinishEvent;
 
-        [SerializeField] private AnimationBehaviour _showBehaviour;
-        [SerializeField] private AnimationBehaviour _hideBehaviour;
+        [SerializeField] private NotInteractableBehaviour _showBehaviour;
+        [SerializeField] private NotInteractableBehaviour _hideBehaviour;
 
         [SerializeField] private Container _animatedContainer;
 
@@ -56,8 +56,8 @@ namespace Prime.UI
 
         protected virtual void Reset()
         {
-            _showBehaviour = new AnimationBehaviour(AnimationType.Show);
-            _hideBehaviour = new AnimationBehaviour(AnimationType.Hide);
+            _showBehaviour = new NotInteractableBehaviour(NotInteractableAnimationType.Show);
+            _hideBehaviour = new NotInteractableBehaviour(NotInteractableAnimationType.Hide);
         }
     }
 }

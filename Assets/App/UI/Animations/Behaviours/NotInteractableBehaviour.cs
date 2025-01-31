@@ -1,24 +1,15 @@
-using Cysharp.Threading.Tasks;
-using UnityEngine.Events;
-using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
 using System;
 
 namespace Prime.UI.Animations
 {
     [Serializable]
-    public sealed class AnimationBehaviour
+    public sealed class NotInteractableBehaviour : AnimationBehaviour
     {
-        [SerializeField] private AnimationsContainer _animations;
+        public NotInteractableBehaviour(NotInteractableAnimationType animationType)
+            : base(AnimationsUtils.GetAnimationType(animationType)) { }
 
-        [SerializeField] private UnityEvent _onStartEvent;
-        [SerializeField] private UnityEvent _onFinishEvent;
-
-        public AnimationBehaviour(AnimationType animationType)
-        {
-            Reset(animationType);
-        }
-
-        public void Execute(Container animatedContainer, bool withoutAnimation = false,
+        public override void Execute(Container animatedContainer, bool withoutAnimation = false,
             Action onStartCallback = null, Action onFinishCallback = null)
         {
             if (withoutAnimation)
@@ -31,7 +22,7 @@ namespace Prime.UI.Animations
             }
         }
 
-        public void ExecuteInstantly(Container animatedContainer)
+        public override void ExecuteInstantly(Container animatedContainer)
         {
             _onStartEvent.Invoke();
 
@@ -62,7 +53,7 @@ namespace Prime.UI.Animations
             _onFinishEvent.Invoke();
         }
 
-        public async UniTask ExecuteAsync(Container animatedContainer,
+        public override async UniTask ExecuteAsync(Container animatedContainer,
             Action onStartCallback = null, Action onFinishCallback = null)
         {
             _onStartEvent.Invoke();
@@ -130,14 +121,6 @@ namespace Prime.UI.Animations
 
             _onFinishEvent.Invoke();
             onFinishCallback?.Invoke();
-        }
-
-        public void Reset(AnimationType animationType)
-        {
-            _animations = new AnimationsContainer(animationType);
-
-            _onStartEvent?.RemoveAllListeners();
-            _onFinishEvent?.RemoveAllListeners();
         }
     }
 }
