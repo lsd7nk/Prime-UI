@@ -36,7 +36,7 @@ namespace Prime.UI.Animations
             }
         }
 
-        [field: SerializeField] public AnimationType AnimationType { get; private set; } = AnimationType.None;
+        public AnimationType AnimationType { get; private set; } = AnimationType.None;
 
         [field: SerializeField] public bool IsEnabled { get; private set; }
         [field: SerializeField] public bool UseCustomFromAndTo { get; private set; }

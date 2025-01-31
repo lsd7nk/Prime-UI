@@ -54,6 +54,9 @@ namespace Prime.UI.Animations
             }
         }
 
+#if UNITY_EDITOR
+        [field: ReadOnly]
+#endif
         [field: SerializeField] public AnimationType AnimationType { get; private set; } = AnimationType.None;
 
         [field: SerializeField] public RotateAnimation Rotate { get; private set; }
