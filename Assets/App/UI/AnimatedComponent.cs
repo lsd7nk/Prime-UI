@@ -14,10 +14,11 @@ namespace Prime.UI
         public event Action OnHideStartEvent;
         public event Action OnHideFinishEvent;
 
+        [SerializeField] protected Container _animatedContainer;
+
+        [Space(10)]
         [SerializeField] private NotInteractableBehaviour _showBehaviour;
         [SerializeField] private NotInteractableBehaviour _hideBehaviour;
-
-        [SerializeField] private Container _animatedContainer;
 
         public AnimatedComponent()
         {
