@@ -3,6 +3,6 @@
     public enum InteractableAnimationType
     {
         Punch = 0,
-        Loop = 1
+        State = 1
     }
 }

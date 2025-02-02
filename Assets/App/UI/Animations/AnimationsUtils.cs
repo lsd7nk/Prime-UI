@@ -19,7 +19,7 @@ namespace Prime.UI.Animations
             return animationType switch
             {
                 AnimationType.Punch => InteractableAnimationType.Punch,
-                AnimationType.Loop => InteractableAnimationType.Loop,
+                AnimationType.State => InteractableAnimationType.State,
                 _ => throw new NotImplementedException("Not supported animation type for InteractableBehaviour")
             };
         }
@@ -39,7 +39,7 @@ namespace Prime.UI.Animations
             return animationType switch
             {
                 InteractableAnimationType.Punch => AnimationType.Punch,
-                InteractableAnimationType.Loop => AnimationType.Loop,
+                InteractableAnimationType.State => AnimationType.State,
                 _ => throw new NotImplementedException("Not supported animation type for AnimatedBehaviour")
             };
         }
