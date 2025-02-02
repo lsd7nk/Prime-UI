@@ -5,7 +5,7 @@ namespace Prime.UI.Popup
 {
     public sealed class Popup : AnimatedComponent
     {
-        [Space(10)]
+        [Space(10), Header("Popup")]
         [SerializeField] private Container _overlay;
         [SerializeField] private bool _deestroyAfterHide;
 
