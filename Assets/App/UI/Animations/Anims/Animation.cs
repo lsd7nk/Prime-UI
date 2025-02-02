@@ -9,6 +9,7 @@ namespace Prime.UI.Animations
     {
         [field: SerializeField] public T From { get; private set; }
         [field: SerializeField] public T To { get; private set; }
+        [field: SerializeField] public T By { get; private set; }
 
         protected Animation(AnimationType animationType)
         {
@@ -21,6 +22,7 @@ namespace Prime.UI.Animations
 
             From = default;
             To = default;
+            By = default;
         }
     }
 
@@ -44,8 +46,8 @@ namespace Prime.UI.Animations
         [field: SerializeField] public float StartDelay { get; private set; }
         [field: SerializeField] public float Duration { get; private set; }
 
-        [field: SerializeField] public int Vibrato { get; private set; }
-        [field: SerializeField] public float Elasticity { get; private set; }
+        [field: SerializeField] public int Frequency { get; private set; }
+        [field: SerializeField] public float AsymmetryFactor { get; private set; }
         [field: SerializeField] public int NumberOfCycles { get; private set; }
 
         [field: SerializeField] public CycleMode CycleMode { get; private set; }
@@ -64,8 +66,8 @@ namespace Prime.UI.Animations
             StartDelay = AnimatorConstants.START_DELAY;
             Duration = AnimatorConstants.DURATION;
 
-            Vibrato = AnimatorConstants.VIBRATO;
-            Elasticity = AnimatorConstants.ELASTICITY;
+            Frequency = AnimatorConstants.FREQUENCY;
+            AsymmetryFactor = AnimatorConstants.ASYMMETRY_FACTOR;
             NumberOfCycles = AnimatorConstants.NUMBER_OF_LOOPS;
 
             CycleMode = AnimatorConstants.CYCLE_MODE;

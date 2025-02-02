@@ -5,7 +5,36 @@ namespace Prime.UI.Animations
 {
     public static class Animator
     {
-        #region animations
+        #region animations (punch & loop)
+        public static Tween MovePunch(RectTransform target, MoveAnimation animation)
+        {
+            return Tween.PunchLocalPosition(target, animation.By, animation.Duration, animation.Frequency, asymmetryFactor: animation.AsymmetryFactor, startDelay: animation.StartDelay);
+        }
+
+        public static Tween RotatePunch(RectTransform target, RotateAnimation animation)
+        {
+            return Tween.PunchLocalRotation(target, animation.By, animation.Duration, animation.Frequency, asymmetryFactor: animation.AsymmetryFactor, startDelay: animation.StartDelay);
+        }
+
+        public static Tween ScalePunch(RectTransform target, ScaleAnimation animation)
+        {
+            return Tween.PunchScale(target, animation.By, animation.Duration, animation.Frequency, asymmetryFactor: animation.AsymmetryFactor, startDelay: animation.StartDelay);
+        }
+        #endregion
+
+        #region animations (show & hide)
+        public static void MoveInstantly(RectTransform target, Vector3 endValue)
+        {
+            target.anchoredPosition3D = endValue;
+        }
+
+        public static Tween Move(RectTransform target, MoveAnimation animation,
+            Vector3 startValue, Vector3 endValue)
+        {
+            return Tween.UIAnchoredPosition3D(target, startValue, endValue, animation.Duration,
+                animation.GetEasing(), animation.NumberOfCycles, animation.CycleMode, animation.StartDelay);
+        }
+
         public static void RotateInstantly(RectTransform target, Vector3 endValue)
         {
             target.localRotation = Quaternion.Euler(endValue);
@@ -14,7 +43,8 @@ namespace Prime.UI.Animations
         public static Tween Rotate(RectTransform target, RotateAnimation animation,
             Vector3 startValue, Vector3 endValue)
         {
-            return GetRotateTween(target, animation, startValue, endValue);
+            return Tween.LocalRotation(target, startValue, endValue, animation.Duration,
+                animation.GetEasing(), animation.NumberOfCycles, animation.CycleMode, animation.StartDelay);
         }
 
         public static void ScaleInstantly(RectTransform target, Vector3 endValue)
@@ -29,18 +59,8 @@ namespace Prime.UI.Animations
             startValue.z = 1f;
             endValue.z = 1f;
 
-            return GetScaleTween(target, animation, startValue, endValue);
-        }
-
-        public static void MoveInstantly(RectTransform target, Vector3 endValue)
-        {
-            target.anchoredPosition3D = endValue;
-        }
-
-        public static Tween Move(RectTransform target, MoveAnimation animation,
-            Vector3 startValue, Vector3 endValue)
-        {
-            return GetMoveTween(target, animation, startValue, endValue);
+            return Tween.Scale(target, startValue, endValue, animation.Duration,
+                animation.GetEasing(), animation.NumberOfCycles, animation.CycleMode, animation.StartDelay);
         }
 
         public static void FadeInstantly(CanvasGroup target, float endValue)
@@ -55,35 +75,6 @@ namespace Prime.UI.Animations
             endValue = Mathf.Clamp01(endValue);
             startValue = Mathf.Clamp01(startValue);
 
-            return GetFadeTween(target, animation, startValue, endValue);
-        }
-        #endregion
-
-        #region tweens
-        private static Tween GetRotateTween(RectTransform target, RotateAnimation animation,
-            Vector3 startValue, Vector3 endValue)
-        {
-            return Tween.LocalRotation(target, startValue, endValue, animation.Duration,
-                animation.GetEasing(), animation.NumberOfCycles, animation.CycleMode, animation.StartDelay);
-        }
-
-        private static Tween GetScaleTween(RectTransform target, ScaleAnimation animation,
-            Vector3 startValue, Vector3 endValue)
-        {
-            return Tween.Scale(target, startValue, endValue, animation.Duration,
-                animation.GetEasing(), animation.NumberOfCycles, animation.CycleMode, animation.StartDelay);
-        }
-
-        private static Tween GetMoveTween(RectTransform target, MoveAnimation animation,
-            Vector3 startValue, Vector3 endValue)
-        {
-            return Tween.UIAnchoredPosition3D(target, startValue, endValue, animation.Duration,
-                animation.GetEasing(), animation.NumberOfCycles, animation.CycleMode, animation.StartDelay);
-        }
-
-        private static Tween GetFadeTween(CanvasGroup target, FadeAnimation animation,
-            float startValue, float endValue)
-        {
             return Tween.Alpha(target, startValue, endValue, animation.Duration,
                 animation.GetEasing(), animation.NumberOfCycles, animation.CycleMode, animation.StartDelay);
         }
