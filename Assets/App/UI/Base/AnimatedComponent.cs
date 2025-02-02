@@ -6,7 +6,7 @@ using System;
 namespace Prime.UI
 {
     [DisallowMultipleComponent]
-    public abstract class AnimatedComponent : MonoBehaviour
+    public abstract class AnimatedComponent : MonoBehaviour, IAnimatedComponent
     {
         public event Action OnShowStartEvent;
         public event Action OnShowFinishEvent;

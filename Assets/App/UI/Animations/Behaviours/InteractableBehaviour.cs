@@ -29,19 +29,34 @@ namespace Prime.UI.Animations
         public override async UniTask ExecuteAsync(Container animatedContainer,
             Action onStartCallback = null, Action onFinishCallback = null)
         {
-            switch (_animations.AnimationType)
+#pragma warning disable CS4014
+            if (_animations.AnimationType == AnimationType.Punch)
             {
-                case AnimationType.Punch:
+                if (_animations.Move.IsEnabled)
                 {
-
-                    break;
+                    animatedContainer.ResetPosition();
+                    Animator.MovePunch(animatedContainer.RectTransform, _animations.Move);
                 }
-                case AnimationType.Loop:
-                {
 
-                    break;
+                if (_animations.Rotate.IsEnabled)
+                {
+                    animatedContainer.ResetRotation();
+                    Animator.RotatePunch(animatedContainer.RectTransform, _animations.Rotate);
+                }
+
+                if (_animations.Scale.IsEnabled)
+                {
+                    animatedContainer.ResetScale();
+                    Animator.ScalePunch(animatedContainer.RectTransform, _animations.Scale);
                 }
             }
+            else
+            {
+
+            }
+#pragma warning restore CS4014
+
+            await UniTask.Delay((int)(_animations.TotalDuration * AnimatorConstants.UNI_TASK_DELAY_MULTIPLIER));
         }
     }
 }
