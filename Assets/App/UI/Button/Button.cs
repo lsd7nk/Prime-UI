@@ -17,11 +17,6 @@ namespace Prime.UI.Button
         [SerializeField] private InteractableBehaviour _downBehaviour;
         [SerializeField] private InteractableBehaviour _upBehaviour;
 
-        public Button()
-        {
-            Reset();
-        }
-
         public void OnPointerClick(PointerEventData eventData)
         {
             OnPointerClickEvent?.Invoke();

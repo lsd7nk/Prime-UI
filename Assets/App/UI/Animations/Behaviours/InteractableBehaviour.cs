@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 using System;
 
 namespace Prime.UI.Animations
@@ -6,6 +7,8 @@ namespace Prime.UI.Animations
     [Serializable]
     public sealed class InteractableBehaviour : AnimationBehaviour
     {
+        [SerializeField] private AnimationsContainer _animations;
+
         public InteractableBehaviour(InteractableAnimationType animationType)
             : base(AnimationsUtils.GetAnimationType(animationType)) { }
 
@@ -57,6 +60,13 @@ namespace Prime.UI.Animations
 #pragma warning restore CS4014
 
             await UniTask.Delay((int)(_animations.TotalDuration * AnimatorConstants.UNI_TASK_DELAY_MULTIPLIER));
+        }
+
+        protected override void Reset(AnimationType animationType)
+        {
+            _animations = new AnimationsContainer(animationType);
+
+            base.Reset(animationType);
         }
     }
 }

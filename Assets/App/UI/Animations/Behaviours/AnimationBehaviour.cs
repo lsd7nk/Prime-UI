@@ -8,8 +8,6 @@ namespace Prime.UI.Animations
     [Serializable]
     public abstract class AnimationBehaviour
     {
-        [SerializeField] protected AnimationsContainer _animations;
-
         [SerializeField] protected UnityEvent _onStartEvent;
         [SerializeField] protected UnityEvent _onFinishEvent;
 
@@ -26,10 +24,8 @@ namespace Prime.UI.Animations
 
         public virtual void ExecuteInstantly(Container animatedContainer) { }
 
-        public void Reset(AnimationType animationType)
+        protected virtual void Reset(AnimationType animationType)
         {
-            _animations = new AnimationsContainer(animationType);
-
             _onStartEvent?.RemoveAllListeners();
             _onFinishEvent?.RemoveAllListeners();
         }

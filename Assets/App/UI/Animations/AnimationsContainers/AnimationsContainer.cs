@@ -4,25 +4,24 @@ using System;
 namespace Prime.UI.Animations
 {
     [Serializable]
-    public sealed class AnimationsContainer
+    public class AnimationsContainer
     {
         public const float MAX_START_DELAY = 10000f;
         public const float MIN_TOTAL_DURATION = 0f;
 
-        public bool IsEnabled
+        public virtual bool IsEnabled
         {
             get
             {
                 return AnimationType switch
                 {
                     AnimationType.None => false,
-                    AnimationType.Punch => Move.IsEnabled || Rotate.IsEnabled || Scale.IsEnabled,
-                    _ => Move.IsEnabled || Rotate.IsEnabled || Scale.IsEnabled || Fade.IsEnabled
+                    _ => Move.IsEnabled || Rotate.IsEnabled || Scale.IsEnabled
                 };
             }
         }
 
-        public float StartDelay
+        public virtual float StartDelay
         {
             get
             {
@@ -33,12 +32,11 @@ namespace Prime.UI.Animations
 
                 return Mathf.Min(Move.IsEnabled ? Move.StartDelay : MAX_START_DELAY,
                                  Rotate.IsEnabled ? Rotate.StartDelay : MAX_START_DELAY,
-                                 Scale.IsEnabled ? Scale.StartDelay : MAX_START_DELAY,
-                                 Fade.IsEnabled ? Fade.StartDelay : MAX_START_DELAY);
+                                 Scale.IsEnabled ? Scale.StartDelay : MAX_START_DELAY);
             }
         }
 
-        public float TotalDuration
+        public virtual float TotalDuration
         {
             get
             {
@@ -49,8 +47,7 @@ namespace Prime.UI.Animations
 
                 return Mathf.Max(Move.IsEnabled ? Move.TotalDuration : MIN_TOTAL_DURATION,
                                  Rotate.IsEnabled ? Rotate.TotalDuration : MIN_TOTAL_DURATION,
-                                 Scale.IsEnabled ? Scale.TotalDuration : MIN_TOTAL_DURATION,
-                                 Fade.IsEnabled ? Fade.TotalDuration : MIN_TOTAL_DURATION);
+                                 Scale.IsEnabled ? Scale.TotalDuration : MIN_TOTAL_DURATION);
             }
         }
 
@@ -62,21 +59,19 @@ namespace Prime.UI.Animations
         [field: SerializeField] public RotateAnimation Rotate { get; private set; }
         [field: SerializeField] public ScaleAnimation Scale { get; private set; }
         [field: SerializeField] public MoveAnimation Move { get; private set; }
-        [field: SerializeField] public FadeAnimation Fade { get; private set; }
 
         public AnimationsContainer(AnimationType animationType)
         {
             Reset(animationType);
         }
 
-        public void Reset(AnimationType animationType)
+        protected virtual void Reset(AnimationType animationType)
         {
             AnimationType = animationType;
 
             Rotate = new RotateAnimation(animationType);
             Scale = new ScaleAnimation(animationType);
             Move = new MoveAnimation(animationType);
-            Fade = new FadeAnimation(animationType);
         }
     }
 }

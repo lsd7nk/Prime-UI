@@ -32,7 +32,7 @@ namespace Prime.UI.Animations
             Vector3 startValue, Vector3 endValue)
         {
             return Tween.UIAnchoredPosition3D(target, startValue, endValue, animation.Duration,
-                animation.GetEasing(), animation.NumberOfCycles, animation.CycleMode, animation.StartDelay);
+                animation.GetEasing(), startDelay: animation.StartDelay);
         }
 
         public static void RotateInstantly(RectTransform target, Vector3 endValue)
@@ -44,7 +44,7 @@ namespace Prime.UI.Animations
             Vector3 startValue, Vector3 endValue)
         {
             return Tween.LocalRotation(target, startValue, endValue, animation.Duration,
-                animation.GetEasing(), animation.NumberOfCycles, animation.CycleMode, animation.StartDelay);
+                animation.GetEasing(), startDelay: animation.StartDelay);
         }
 
         public static void ScaleInstantly(RectTransform target, Vector3 endValue)
@@ -60,7 +60,7 @@ namespace Prime.UI.Animations
             endValue.z = 1f;
 
             return Tween.Scale(target, startValue, endValue, animation.Duration,
-                animation.GetEasing(), animation.NumberOfCycles, animation.CycleMode, animation.StartDelay);
+                animation.GetEasing(), startDelay: animation.StartDelay);
         }
 
         public static void FadeInstantly(CanvasGroup target, float endValue)
@@ -76,7 +76,7 @@ namespace Prime.UI.Animations
             startValue = Mathf.Clamp01(startValue);
 
             return Tween.Alpha(target, startValue, endValue, animation.Duration,
-                animation.GetEasing(), animation.NumberOfCycles, animation.CycleMode, animation.StartDelay);
+                animation.GetEasing(), startDelay: animation.StartDelay);
         }
         #endregion
     }
