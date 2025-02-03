@@ -4,7 +4,7 @@ using System;
 namespace Prime.UI.Animations
 {
     [Serializable]
-    public class AnimationsContainer
+    public class AnimationsContainer<TAnimation> where TAnimation : Animation
     {
         public const float MAX_START_DELAY = 10000f;
         public const float MIN_TOTAL_DURATION = 0f;
@@ -16,7 +16,7 @@ namespace Prime.UI.Animations
                 return AnimationType switch
                 {
                     AnimationType.None => false,
-                    _ => Move.IsEnabled || Rotate.IsEnabled || Scale.IsEnabled
+                    _ => Rotate.IsEnabled || Scale.IsEnabled
                 };
             }
         }
@@ -30,8 +30,7 @@ namespace Prime.UI.Animations
                     return 0;
                 }
 
-                return Mathf.Min(Move.IsEnabled ? Move.StartDelay : MAX_START_DELAY,
-                                 Rotate.IsEnabled ? Rotate.StartDelay : MAX_START_DELAY,
+                return Mathf.Min(Rotate.IsEnabled ? Rotate.StartDelay : MAX_START_DELAY,
                                  Scale.IsEnabled ? Scale.StartDelay : MAX_START_DELAY);
             }
         }
@@ -45,8 +44,7 @@ namespace Prime.UI.Animations
                     return 0;
                 }
 
-                return Mathf.Max(Move.IsEnabled ? Move.TotalDuration : MIN_TOTAL_DURATION,
-                                 Rotate.IsEnabled ? Rotate.TotalDuration : MIN_TOTAL_DURATION,
+                return Mathf.Max(Rotate.IsEnabled ? Rotate.TotalDuration : MIN_TOTAL_DURATION,
                                  Scale.IsEnabled ? Scale.TotalDuration : MIN_TOTAL_DURATION);
             }
         }
@@ -54,11 +52,10 @@ namespace Prime.UI.Animations
 #if UNITY_EDITOR
         [field: ReadOnly]
 #endif
-        [field: SerializeField] public AnimationType AnimationType { get; private set; } = AnimationType.None;
+        [field: SerializeField] public AnimationType AnimationType { get; protected set; } = AnimationType.None;
 
-        [field: SerializeField] public RotateAnimation Rotate { get; private set; }
-        [field: SerializeField] public ScaleAnimation Scale { get; private set; }
-        [field: SerializeField] public MoveAnimation Move { get; private set; }
+        [field: SerializeField] public TAnimation Rotate { get; protected set; }
+        [field: SerializeField] public TAnimation Scale { get; protected set; }
 
         public AnimationsContainer(AnimationType animationType)
         {
@@ -68,10 +65,6 @@ namespace Prime.UI.Animations
         protected virtual void Reset(AnimationType animationType)
         {
             AnimationType = animationType;
-
-            Rotate = new RotateAnimation(animationType);
-            Scale = new ScaleAnimation(animationType);
-            Move = new MoveAnimation(animationType);
         }
     }
 }
