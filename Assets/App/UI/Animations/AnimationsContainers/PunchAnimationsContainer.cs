@@ -1,10 +1,8 @@
-using UnityEngine;
-using System;
+﻿using UnityEngine;
 
 namespace Prime.UI.Animations
 {
-    [Serializable]
-    public sealed class AlphaAnimationsContainer : VectorAnimationsContainer
+    public sealed class PunchAnimationsContainer : AnimationsContainer<PunchAnimation>
     {
         public override bool IsEnabled
         {
@@ -13,8 +11,7 @@ namespace Prime.UI.Animations
                 return AnimationType switch
                 {
                     AnimationType.None => false,
-                    AnimationType.Punch => Move.IsEnabled || Rotate.IsEnabled || Scale.IsEnabled,
-                    _ => Move.IsEnabled || Rotate.IsEnabled || Scale.IsEnabled || Fade.IsEnabled
+                    _ => Move.IsEnabled || Rotate.IsEnabled || Scale.IsEnabled
                 };
             }
         }
@@ -30,8 +27,7 @@ namespace Prime.UI.Animations
 
                 return Mathf.Min(Move.IsEnabled ? Move.StartDelay : MAX_START_DELAY,
                                  Rotate.IsEnabled ? Rotate.StartDelay : MAX_START_DELAY,
-                                 Scale.IsEnabled ? Scale.StartDelay : MAX_START_DELAY,
-                                 Fade.IsEnabled ? Fade.StartDelay : MAX_START_DELAY);
+                                 Scale.IsEnabled ? Scale.StartDelay : MAX_START_DELAY);
             }
         }
 
@@ -46,20 +42,21 @@ namespace Prime.UI.Animations
 
                 return Mathf.Max(Move.IsEnabled ? Move.TotalDuration : MIN_TOTAL_DURATION,
                                  Rotate.IsEnabled ? Rotate.TotalDuration : MIN_TOTAL_DURATION,
-                                 Scale.IsEnabled ? Scale.TotalDuration : MIN_TOTAL_DURATION,
-                                 Fade.IsEnabled ? Fade.TotalDuration : MIN_TOTAL_DURATION);
+                                 Scale.IsEnabled ? Scale.TotalDuration : MIN_TOTAL_DURATION);
             }
         }
 
-        [field: SerializeField] public Animation<float> Fade { get; private set; }
+        [field: SerializeField] public PunchAnimation Move { get; private set; }
 
-        public AlphaAnimationsContainer(AnimationType animationType) : base(animationType) { }
+        public PunchAnimationsContainer(AnimationType animationType) : base(animationType) { }
 
         protected override void Reset(AnimationType animationType)
         {
             base.Reset(animationType);
 
-            Fade = new Animation<float>(animationType);
+            Rotate = new PunchAnimation();
+            Scale = new PunchAnimation();
+            Move = new PunchAnimation();
         }
     }
 }

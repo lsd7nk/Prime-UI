@@ -7,7 +7,7 @@ namespace Prime.UI.Animations
     [Serializable]
     public sealed class InteractableBehaviour : AnimationBehaviour
     {
-        [SerializeField] private AnimationsContainer _animations;
+        [SerializeField] private PunchAnimationsContainer _animations;
 
         public InteractableBehaviour(InteractableAnimationType animationType)
             : base(AnimationsUtils.GetAnimationType(animationType)) { }
@@ -64,7 +64,7 @@ namespace Prime.UI.Animations
 
         protected override void Reset(AnimationType animationType)
         {
-            _animations = new AnimationsContainer(animationType);
+            _animations = new PunchAnimationsContainer(animationType);
 
             base.Reset(animationType);
         }

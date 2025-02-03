@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Prime.UI
 {
-    [RequireComponent(typeof(RectTransform), typeof(CanvasGroup))]
+    [RequireComponent(typeof(RectTransform), typeof(CanvasGroup), typeof(Canvas))]
     public abstract class BaseComponent : MonoBehaviour
     {
         [field: SerializeField] public RectTransform RectTransform { get; private set; }
