@@ -6,8 +6,8 @@ namespace Prime.UI.Animations
     [Serializable]
     public class AnimationsContainer<TAnimation> where TAnimation : Animation
     {
-        public const float MAX_START_DELAY = 10000f;
-        public const float MIN_TOTAL_DURATION = 0f;
+        protected const float MAX_START_DELAY = 10000f;
+        protected const float MIN_TOTAL_DURATION = 0f;
 
         public virtual bool IsEnabled
         {

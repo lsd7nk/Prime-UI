@@ -7,15 +7,14 @@ namespace Prime.UI.Animations
     [Serializable]
     public sealed class InteractableBehaviour : AnimationBehaviour
     {
-        [SerializeField] private PunchAnimationsContainer _animations;
+        [SerializeField] private PunchAnimationsContainer _punchAnimations;
 
-        public InteractableBehaviour(InteractableAnimationType animationType)
-            : base(AnimationsUtils.GetAnimationType(animationType)) { }
+        public InteractableBehaviour() : base(AnimationType.Punch) { }
 
         public override void Execute(Container animatedContainer, bool withoutAnimation = false,
             Action onStartCallback = null, Action onFinishCallback = null)
         {
-            if (!withoutAnimation && _animations.IsEnabled)
+            if (!withoutAnimation && _punchAnimations.IsEnabled)
             {
                 ExecuteAsync(animatedContainer, onStartCallback, onFinishCallback).Forget();
             }
@@ -33,38 +32,31 @@ namespace Prime.UI.Animations
             Action onStartCallback = null, Action onFinishCallback = null)
         {
 #pragma warning disable CS4014
-            if (_animations.AnimationType == AnimationType.Punch)
+            if (_punchAnimations.Move.IsEnabled)
             {
-                if (_animations.Move.IsEnabled)
-                {
-                    animatedContainer.ResetPosition();
-                    Animator.MovePunch(animatedContainer.RectTransform, _animations.Move);
-                }
-
-                if (_animations.Rotate.IsEnabled)
-                {
-                    animatedContainer.ResetRotation();
-                    Animator.RotatePunch(animatedContainer.RectTransform, _animations.Rotate);
-                }
-
-                if (_animations.Scale.IsEnabled)
-                {
-                    animatedContainer.ResetScale();
-                    Animator.ScalePunch(animatedContainer.RectTransform, _animations.Scale);
-                }
+                animatedContainer.ResetPosition();
+                Animator.MovePunch(animatedContainer.RectTransform, _punchAnimations.Move);
             }
-            else
-            {
 
+            if (_punchAnimations.Rotate.IsEnabled)
+            {
+                animatedContainer.ResetRotation();
+                Animator.RotatePunch(animatedContainer.RectTransform, _punchAnimations.Rotate);
+            }
+
+            if (_punchAnimations.Scale.IsEnabled)
+            {
+                animatedContainer.ResetScale();
+                Animator.ScalePunch(animatedContainer.RectTransform, _punchAnimations.Scale);
             }
 #pragma warning restore CS4014
 
-            await UniTask.Delay((int)(_animations.TotalDuration * AnimatorConstants.UNI_TASK_DELAY_MULTIPLIER));
+            await UniTask.Delay((int)(_punchAnimations.TotalDuration * AnimatorConstants.UNI_TASK_DELAY_MULTIPLIER));
         }
 
         protected override void Reset(AnimationType animationType)
         {
-            _animations = new PunchAnimationsContainer(animationType);
+            _punchAnimations = new PunchAnimationsContainer();
 
             base.Reset(animationType);
         }

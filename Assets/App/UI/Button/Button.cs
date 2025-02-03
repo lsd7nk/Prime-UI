@@ -13,9 +13,9 @@ namespace Prime.UI.Button
         public event Action OnPointerUpEvent;
 
         [Space(10), Header("Button")]
-        [SerializeField] private InteractableBehaviour _clickBehaviour;
-        [SerializeField] private InteractableBehaviour _downBehaviour;
-        [SerializeField] private InteractableBehaviour _upBehaviour;
+        [SerializeField] private InteractableBehaviour _pointerClickBehaviour;
+        [SerializeField] private InteractableBehaviour _pointerDownBehaviour;
+        [SerializeField] private InteractableBehaviour _pointerUpBehaviour;
 
         public void OnPointerClick(PointerEventData eventData)
         {
@@ -36,9 +36,9 @@ namespace Prime.UI.Button
         {
             base.Reset();
 
-            _clickBehaviour = new InteractableBehaviour(InteractableAnimationType.Punch);
-            _downBehaviour = new InteractableBehaviour(InteractableAnimationType.Punch);
-            _upBehaviour = new InteractableBehaviour(InteractableAnimationType.Punch);
+            _pointerClickBehaviour = new InteractableBehaviour();
+            _pointerDownBehaviour = new InteractableBehaviour();
+            _pointerUpBehaviour = new InteractableBehaviour();
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
+using System;
 
 namespace Prime.UI.Animations
 {
+    [Serializable]
     public sealed class PunchAnimationsContainer : AnimationsContainer<PunchAnimation>
     {
         public override bool IsEnabled
@@ -48,7 +50,7 @@ namespace Prime.UI.Animations
 
         [field: SerializeField] public PunchAnimation Move { get; private set; }
 
-        public PunchAnimationsContainer(AnimationType animationType) : base(animationType) { }
+        public PunchAnimationsContainer() : base(AnimationType.Punch) { }
 
         protected override void Reset(AnimationType animationType)
         {
