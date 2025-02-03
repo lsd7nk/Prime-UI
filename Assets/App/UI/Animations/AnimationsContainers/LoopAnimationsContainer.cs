@@ -1,15 +1,12 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 
 namespace Prime.UI.Animations
 {
     [Serializable]
-    public sealed class AnimationsContainer
+    public sealed class LoopAnimationsContainer : AnimationsContainer<LoopAnimation<Vector3>>
     {
-        public const float MAX_START_DELAY = 10000f;
-        public const float MIN_TOTAL_DURATION = 0f;
-
-        public bool IsEnabled
+        public override bool IsEnabled
         {
             get
             {
@@ -22,7 +19,7 @@ namespace Prime.UI.Animations
             }
         }
 
-        public float StartDelay
+        public override float StartDelay
         {
             get
             {
@@ -38,7 +35,7 @@ namespace Prime.UI.Animations
             }
         }
 
-        public float TotalDuration
+        public override float TotalDuration
         {
             get
             {
@@ -54,29 +51,17 @@ namespace Prime.UI.Animations
             }
         }
 
-#if UNITY_EDITOR
-        [field: ReadOnly]
-#endif
-        [field: SerializeField] public AnimationType AnimationType { get; private set; } = AnimationType.None;
+        [field: SerializeField] public LoopAnimation<Vector3> Move { get; private set; }
+        [field: SerializeField] public LoopAnimation<float> Fade { get; private set; }
 
-        [field: SerializeField] public RotateAnimation Rotate { get; private set; }
-        [field: SerializeField] public ScaleAnimation Scale { get; private set; }
-        [field: SerializeField] public MoveAnimation Move { get; private set; }
-        [field: SerializeField] public FadeAnimation Fade { get; private set; }
+        public LoopAnimationsContainer() : base(AnimationType.Loop) { }
 
-        public AnimationsContainer(AnimationType animationType)
+        protected override void Reset(AnimationType animationType)
         {
-            Reset(animationType);
-        }
+            base.Reset(animationType);
 
-        public void Reset(AnimationType animationType)
-        {
-            AnimationType = animationType;
-
-            Rotate = new RotateAnimation(animationType);
-            Scale = new ScaleAnimation(animationType);
-            Move = new MoveAnimation(animationType);
-            Fade = new FadeAnimation(animationType);
+            Move = new LoopAnimation<Vector3>(animationType);
+            Fade = new LoopAnimation<float>(animationType);
         }
     }
 }

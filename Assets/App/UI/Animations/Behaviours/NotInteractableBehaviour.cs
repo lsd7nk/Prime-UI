@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 using System;
 
 namespace Prime.UI.Animations
@@ -6,6 +7,8 @@ namespace Prime.UI.Animations
     [Serializable]
     public sealed class NotInteractableBehaviour : AnimationBehaviour
     {
+        [SerializeField] private AlphaAnimationsContainer _animations;
+
         public NotInteractableBehaviour(NotInteractableAnimationType animationType)
             : base(AnimationsUtils.GetAnimationType(animationType)) { }
 
@@ -121,6 +124,13 @@ namespace Prime.UI.Animations
 
             _onFinishEvent.Invoke();
             onFinishCallback?.Invoke();
+        }
+
+        protected override void Reset(AnimationType animationType)
+        {
+            _animations = new AlphaAnimationsContainer(animationType);
+
+            base.Reset(animationType);
         }
     }
 }
