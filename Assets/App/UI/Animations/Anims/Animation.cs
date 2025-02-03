@@ -5,8 +5,10 @@ using System;
 namespace Prime.UI.Animations
 {
     [Serializable]
-    public sealed class PunchAnimation : Animation<Vector3>
+    public sealed class PunchAnimation : Animation
     {
+        [field: SerializeField] public Vector3 By { get; private set; }
+
         [field: SerializeField] public int Frequency { get; private set; }
         [field: SerializeField] public float AsymmetryFactor { get; private set; }
 
@@ -15,6 +17,8 @@ namespace Prime.UI.Animations
         public override void Reset(AnimationType animationType)
         {
             base.Reset(animationType);
+
+            By = default;
 
             Frequency = AnimatorConstants.FREQUENCY;
             AsymmetryFactor = AnimatorConstants.ASYMMETRY_FACTOR;
@@ -47,12 +51,8 @@ namespace Prime.UI.Animations
 
         [field: SerializeField] public T From { get; private set; }
         [field: SerializeField] public T To { get; private set; }
-        [field: SerializeField] public T By { get; private set; }
 
-        public Animation(AnimationType animationType)
-        {
-            Reset(animationType);
-        }
+        public Animation(AnimationType animationType) : base(animationType) { }
 
         public override void Reset(AnimationType animationType)
         {
@@ -62,7 +62,6 @@ namespace Prime.UI.Animations
 
             From = default;
             To = default;
-            By = default;
         }
     }
 
@@ -89,6 +88,11 @@ namespace Prime.UI.Animations
 
         [field: SerializeField] public Ease Ease { get; private set; }
         [field: SerializeField] public AnimationCurve AnimationCurve { get; private set; }
+
+        public Animation(AnimationType animationType)
+        {
+            Reset(animationType);
+        }
 
         public virtual void Reset(AnimationType animationType)
         {
