@@ -5,7 +5,11 @@ namespace Prime.UI.Animations
 {
     public static class Animator
     {
-        #region animations (punch & loop)
+        #region animations (loop)
+
+        #endregion
+
+        #region animations (punch & state)
         public static Tween MovePunch(RectTransform target, MoveAnimation animation)
         {
             return Tween.PunchLocalPosition(target, animation.By, animation.Duration, animation.Frequency, asymmetryFactor: animation.AsymmetryFactor, startDelay: animation.StartDelay);
