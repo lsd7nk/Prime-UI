@@ -3,6 +3,9 @@ using Prime.UI.Animations;
 using UnityEngine.UI;
 using UnityEngine;
 using System;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Prime.UI.Button
 {
@@ -13,7 +16,7 @@ namespace Prime.UI.Button
         public event Action OnPointerDownEvent;
         public event Action OnPointerUpEvent;
 
-        [Space(10), Header("Button")]
+        [Space(10), Header(PrimeUtils.BUTTON)]
         [SerializeField] private InteractableBehaviour _pointerClickBehaviour;
         [SerializeField] private InteractableBehaviour _pointerDownBehaviour;
         [SerializeField] private InteractableBehaviour _pointerUpBehaviour;
@@ -44,5 +47,13 @@ namespace Prime.UI.Button
             _pointerDownBehaviour = new InteractableBehaviour();
             _pointerUpBehaviour = new InteractableBehaviour();
         }
+
+#if UNITY_EDITOR
+        [MenuItem(PrimeUtils.BUTTON_PATH, false, PrimeUtils.COMPONENT_PRIORITY)]
+        private static void CreateComponent(MenuCommand menuCommand)
+        {
+
+        }
+#endif
     }
 }

@@ -16,7 +16,7 @@ namespace Prime.UI
 
         [SerializeField] protected Container _animatedContainer;
 
-        [Space(10), Header("Animated component")]
+        [Space(10), Header(PrimeUtils.ANIMATED_COMPONENT)]
         [SerializeField] protected LoopBehaviour _loopBehaviour;
 
         [SerializeField] private NotInteractableBehaviour _showBehaviour;

@@ -1,6 +1,9 @@
 using Prime.UI.Animations;
 using UnityEngine;
 using System;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Prime.UI
 {
@@ -39,5 +42,13 @@ namespace Prime.UI
             ResetScale();
             ResetAlpha();
         }
+
+#if UNITY_EDITOR
+        [MenuItem(PrimeUtils.CONTAINER_PATH, false, PrimeUtils.COMPONENT_PRIORITY)]
+        private static void CreateComponent(MenuCommand menuCommand)
+        {
+
+        }
+#endif
     }
 }
