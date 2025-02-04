@@ -4,6 +4,11 @@ namespace Prime.UI.Animations
 {
     public static class AnimatorUtils
     {
+        #region animations (loop)
+
+        #endregion
+
+        #region animations (show & hide)
         public static Vector3 GetMoveFrom(RectTransform target, MoveAnimation animation, Vector3 startValue)
         {
             return animation.AnimationType switch
@@ -145,5 +150,6 @@ namespace Prime.UI.Animations
                 _ => Vector3.zero
             };
         }
+        #endregion
     }
 }

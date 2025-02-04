@@ -5,10 +5,8 @@ using System;
 namespace Prime.UI.Animations
 {
     [Serializable]
-    public sealed class PunchAnimation : Animation
+    public sealed class PunchAnimation : ByAnimation<Vector3>
     {
-        [field: SerializeField] public Vector3 By { get; private set; }
-
         [field: SerializeField] public int Frequency { get; private set; }
         [field: SerializeField] public float AsymmetryFactor { get; private set; }
 
@@ -18,8 +16,6 @@ namespace Prime.UI.Animations
         {
             base.Reset(animationType);
 
-            By = default;
-
             Frequency = AnimatorConstants.FREQUENCY;
             AsymmetryFactor = AnimatorConstants.ASYMMETRY_FACTOR;
         }
@@ -27,10 +23,10 @@ namespace Prime.UI.Animations
 
 
     [Serializable]
-    public class LoopAnimation<T> : Animation<T> where T : struct
+    public class LoopAnimation<T> : ByAnimation<T> where T : struct
     {
         [field: SerializeField] public CycleMode CycleMode { get; private set; }
-        [field: SerializeField] public int NumberOfCycles { get; private set; }
+        [field: SerializeField] public int Cycles { get; private set; }
 
         public LoopAnimation(AnimationType animationType) : base(animationType) { }
 
@@ -38,8 +34,23 @@ namespace Prime.UI.Animations
         {
             base.Reset(animationType);
 
-            NumberOfCycles = AnimatorConstants.NUMBER_OF_LOOPS;
+            Cycles = AnimatorConstants.CYCLES;
             CycleMode = AnimatorConstants.CYCLE_MODE;
+        }
+    }
+
+    [Serializable]
+    public class ByAnimation<T> : Animation where T : struct
+    {
+        [field: SerializeField] public T By { get; private set; }
+
+        public ByAnimation(AnimationType animationType) : base(animationType) { }
+
+        public override void Reset(AnimationType animationType)
+        {
+            base.Reset(animationType);
+
+            By = default;
         }
     }
 

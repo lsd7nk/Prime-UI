@@ -21,7 +21,7 @@ namespace Prime.UI.Animations
 
         public const int FREQUENCY = 10;
         public const float ASYMMETRY_FACTOR = 0;
-        public const int NUMBER_OF_LOOPS = 1;
+        public const int CYCLES = 1;
 
         public const CycleMode CYCLE_MODE = CycleMode.Restart;
         public const EaseType EASY_TYPE = EaseType.Ease;

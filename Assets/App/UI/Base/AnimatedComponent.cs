@@ -27,12 +27,26 @@ namespace Prime.UI
 
         public void Show(bool withoutAnimation = false)
         {
-            _showBehaviour.Execute(_animatedContainer, withoutAnimation, OnShowStartEvent, OnShowFinishEvent);
+            if (!withoutAnimation)
+            {
+                ShowAsync().Forget();
+            }
+            else
+            {
+                ShowInstantly();
+            }
         }
 
         public void Hide(bool withoutAnimation = false)
         {
-            _hideBehaviour.Execute(_animatedContainer, withoutAnimation, OnHideStartEvent, OnHideFinishEvent);
+            if (!withoutAnimation)
+            {
+                HideAsync().Forget();
+            }
+            else
+            {
+                HideInstantly();
+            }
         }
 
         public async UniTask ShowAsync()

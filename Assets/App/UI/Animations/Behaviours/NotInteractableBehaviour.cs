@@ -5,27 +5,15 @@ using System;
 namespace Prime.UI.Animations
 {
     [Serializable]
-    public sealed class NotInteractableBehaviour : AnimationBehaviour
+    public sealed class NotInteractableBehaviour : AnimationBehaviour,
+        IAsyncExecutable, IInstantlyExecutable
     {
         [SerializeField] private AlphaAnimationsContainer _animations;
 
         public NotInteractableBehaviour(NotInteractableAnimationType animationType)
             : base(AnimationsUtils.GetAnimationType(animationType)) { }
 
-        public override void Execute(Container animatedContainer, bool withoutAnimation = false,
-            Action onStartCallback = null, Action onFinishCallback = null)
-        {
-            if (withoutAnimation)
-            {
-                ExecuteInstantly(animatedContainer);
-            }
-            else
-            {
-                ExecuteAsync(animatedContainer, onStartCallback, onFinishCallback).Forget();
-            }
-        }
-
-        public override void ExecuteInstantly(Container animatedContainer)
+        public void ExecuteInstantly(Container animatedContainer)
         {
             _onStartEvent.Invoke();
 
@@ -33,30 +21,30 @@ namespace Prime.UI.Animations
                 _animations.Move, animatedContainer.StartPosition);
 
             animatedContainer.ResetPosition();
-            Animator.MoveInstantly(animatedContainer.RectTransform, endMoveValue);
+            Animator.InstantlyMove(animatedContainer.RectTransform, endMoveValue);
 
             var endRotateValue = AnimatorUtils.GetRotateTo(_animations.Rotate,
                 animatedContainer.StartRotation);
 
             animatedContainer.ResetRotation();
-            Animator.RotateInstantly(animatedContainer.RectTransform, endRotateValue);
+            Animator.InstantlyRotate(animatedContainer.RectTransform, endRotateValue);
 
             var endScaleValue = AnimatorUtils.GetScaleTo(_animations.Scale,
                 animatedContainer.StartScale);
 
             animatedContainer.ResetScale();
-            Animator.ScaleInstantly(animatedContainer.RectTransform, endScaleValue);
+            Animator.InstantlyScale(animatedContainer.RectTransform, endScaleValue);
 
             var endFadeValue = AnimatorUtils.GetFadeTo(_animations.Fade,
                 animatedContainer.StartAlpha);
 
             animatedContainer.ResetAlpha();
-            Animator.FadeInstantly(animatedContainer.CanvasGroup, endFadeValue);
+            Animator.InstantlyFade(animatedContainer.CanvasGroup, endFadeValue);
 
             _onFinishEvent.Invoke();
         }
 
-        public override async UniTask ExecuteAsync(Container animatedContainer,
+        public async UniTask ExecuteAsync(Container animatedContainer,
             Action onStartCallback = null, Action onFinishCallback = null)
         {
             _onStartEvent.Invoke();

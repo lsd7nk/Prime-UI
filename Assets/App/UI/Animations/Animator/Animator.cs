@@ -5,29 +5,84 @@ namespace Prime.UI.Animations
 {
     public static class Animator
     {
-        #region animations (loop)
+        private const float LOOP_DURATION_MULTIPLIER = 0.5f;
 
+        #region animations (loop)
+        public static Sequence LoopMove(RectTransform target, LoopAnimation<Vector3> animation,
+            Vector3 startValue)
+        {
+            var positionA = startValue - animation.By;
+            var positionB = startValue + animation.By;
+
+            return Sequence.Create()
+                .Chain(Tween.UIAnchoredPosition(target, positionA, animation.Duration * LOOP_DURATION_MULTIPLIER,
+                    animation.GetEasing(), startDelay: animation.StartDelay))
+                .Chain(Tween.UIAnchoredPosition(target, positionB, animation.Duration,
+                    animation.GetEasing(), animation.Cycles, animation.CycleMode));
+        }
+
+        public static Sequence LoopRotate(RectTransform target, LoopAnimation<Vector3> animation,
+            Vector3 startValue)
+        {
+            var rotationA = startValue - animation.By;
+            var rotationB = startValue + animation.By;
+
+            return Sequence.Create()
+                .Chain(Tween.LocalRotation(target, rotationA, animation.Duration * LOOP_DURATION_MULTIPLIER,
+                    animation.GetEasing(), startDelay: animation.StartDelay))
+                .Chain(Tween.LocalRotation(target, rotationB, animation.Duration,
+                    animation.GetEasing(), animation.Cycles, animation.CycleMode));
+        }
+
+        public static Sequence LoopScale(RectTransform target, LoopAnimation<Vector3> animation,
+            Vector3 startValue)
+        {
+            var scaleA = startValue - animation.By;
+            var scaleB = startValue + animation.By;
+
+            scaleA.z = 1f;
+            scaleB.z = 1f;
+
+            return Sequence.Create()
+                .Chain(Tween.Scale(target, scaleA, animation.Duration * LOOP_DURATION_MULTIPLIER,
+                    animation.GetEasing(), startDelay: animation.StartDelay))
+                .Chain(Tween.Scale(target, scaleB, animation.Duration,
+                    animation.GetEasing(), animation.Cycles, animation.CycleMode));
+        }
+
+        public static Sequence LoopFade(CanvasGroup target, LoopAnimation<float> animation,
+            float startValue)
+        {
+            var fadeA = startValue - animation.By;
+            var fadeB = startValue + animation.By;
+
+            return Sequence.Create()
+                .Chain(Tween.Alpha(target, fadeA, animation.Duration * LOOP_DURATION_MULTIPLIER,
+                    animation.GetEasing(), startDelay: animation.StartDelay))
+                .Chain(Tween.Alpha(target, fadeB, animation.Duration,
+                    animation.GetEasing(), animation.Cycles, animation.CycleMode));
+        }
         #endregion
 
         #region animations (punch & state)
-        public static Tween MovePunch(RectTransform target, PunchAnimation animation)
+        public static Tween PunchMove(RectTransform target, PunchAnimation animation)
         {
             return Tween.PunchLocalPosition(target, animation.By, animation.Duration, animation.Frequency, asymmetryFactor: animation.AsymmetryFactor, startDelay: animation.StartDelay);
         }
 
-        public static Tween RotatePunch(RectTransform target, PunchAnimation animation)
+        public static Tween PunchRotate(RectTransform target, PunchAnimation animation)
         {
             return Tween.PunchLocalRotation(target, animation.By, animation.Duration, animation.Frequency, asymmetryFactor: animation.AsymmetryFactor, startDelay: animation.StartDelay);
         }
 
-        public static Tween ScalePunch(RectTransform target, PunchAnimation animation)
+        public static Tween PunchScale(RectTransform target, PunchAnimation animation)
         {
             return Tween.PunchScale(target, animation.By, animation.Duration, animation.Frequency, asymmetryFactor: animation.AsymmetryFactor, startDelay: animation.StartDelay);
         }
         #endregion
 
         #region animations (show & hide)
-        public static void MoveInstantly(RectTransform target, Vector3 endValue)
+        public static void InstantlyMove(RectTransform target, Vector3 endValue)
         {
             target.anchoredPosition3D = endValue;
         }
@@ -39,7 +94,7 @@ namespace Prime.UI.Animations
                 animation.GetEasing(), startDelay: animation.StartDelay);
         }
 
-        public static void RotateInstantly(RectTransform target, Vector3 endValue)
+        public static void InstantlyRotate(RectTransform target, Vector3 endValue)
         {
             target.localRotation = Quaternion.Euler(endValue);
         }
@@ -51,7 +106,7 @@ namespace Prime.UI.Animations
                 animation.GetEasing(), startDelay: animation.StartDelay);
         }
 
-        public static void ScaleInstantly(RectTransform target, Vector3 endValue)
+        public static void InstantlyScale(RectTransform target, Vector3 endValue)
         {
             endValue.z = 1f;
             target.localScale = endValue;
@@ -67,7 +122,7 @@ namespace Prime.UI.Animations
                 animation.GetEasing(), startDelay: animation.StartDelay);
         }
 
-        public static void FadeInstantly(CanvasGroup target, float endValue)
+        public static void InstantlyFade(CanvasGroup target, float endValue)
         {
             endValue = Mathf.Clamp01(endValue);
             target.alpha = endValue;
