@@ -1,11 +1,12 @@
 using UnityEngine.EventSystems;
 using Prime.UI.Animations;
+using UnityEngine.UI;
 using UnityEngine;
 using System;
 
 namespace Prime.UI.Button
 {
-    [RequireComponent(typeof(Container))]
+    [RequireComponent(typeof(Container), typeof(GraphicRaycaster))]
     public sealed class Button : AnimatedComponent, IButton
     {
         public event Action OnPointerClickEvent;
