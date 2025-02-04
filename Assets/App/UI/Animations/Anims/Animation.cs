@@ -5,22 +5,119 @@ using System;
 namespace Prime.UI.Animations
 {
     [Serializable]
-    public abstract class Animation<T> : Animation where T : struct
+    public sealed class PunchAnimation : ByAnimation<Vector3>
     {
-        [field: SerializeField] public T From { get; private set; }
-        [field: SerializeField] public T To { get; private set; }
+        [field: Space, SerializeField] public int Frequency { get; private set; }
+        [field: SerializeField] public float AsymmetryFactor { get; private set; }
 
-        protected Animation(AnimationType animationType)
-        {
-            Reset(animationType);
-        }
+        public PunchAnimation() : base(AnimationType.Punch) { }
 
         public override void Reset(AnimationType animationType)
         {
             base.Reset(animationType);
 
+            Frequency = AnimatorConstants.FREQUENCY;
+            AsymmetryFactor = AnimatorConstants.ASYMMETRY_FACTOR;
+        }
+    }
+
+
+    [Serializable]
+    public class LoopAnimation<T> : EasyByAnimation<T> where T : struct
+    {
+        [field: Space, SerializeField] public CycleMode CycleMode { get; private set; }
+        [field: SerializeField] public int Cycles { get; private set; }
+
+        public LoopAnimation(AnimationType animationType) : base(animationType) { }
+
+        public override void Reset(AnimationType animationType)
+        {
+            base.Reset(animationType);
+
+            Cycles = AnimatorConstants.CYCLES;
+            CycleMode = AnimatorConstants.CYCLE_MODE;
+        }
+    }
+
+    [Serializable]
+    public class ByAnimation<T> : Animation where T : struct
+    {
+        [field: Space, SerializeField] public T By { get; private set; }
+
+        public ByAnimation(AnimationType animationType) : base(animationType) { }
+
+        public override void Reset(AnimationType animationType)
+        {
+            base.Reset(animationType);
+
+            By = default;
+        }
+    }
+
+    [Serializable]
+    public class EasyByAnimation<T> : EasyAnimation where T : struct
+    {
+        [field: Space, SerializeField] public T By { get; private set; }
+
+        public EasyByAnimation(AnimationType animationType) : base(animationType) { }
+
+        public override void Reset(AnimationType animationType)
+        {
+            base.Reset(animationType);
+
+            By = default;
+        }
+    }
+
+
+    [Serializable]
+    public class Animation<T> : EasyAnimation where T : struct
+    {
+        [field: Space, SerializeField] public bool UseCustomFromAndTo { get; private set; }
+
+        [field: SerializeField] public T From { get; private set; }
+        [field: SerializeField] public T To { get; private set; }
+
+        public Animation(AnimationType animationType) : base(animationType) { }
+
+        public override void Reset(AnimationType animationType)
+        {
+            base.Reset(animationType);
+
+            UseCustomFromAndTo = AnimatorConstants.USE_CUSTOM_FROM_AND_TO;
+
             From = default;
             To = default;
+        }
+    }
+
+    [Serializable]
+    public abstract class EasyAnimation : Animation
+    {
+        [field: Space, SerializeField] public EaseType EaseType { get; private set; }
+
+        [field: SerializeField] public Ease Ease { get; private set; }
+        [field: SerializeField] public AnimationCurve AnimationCurve { get; private set; }
+
+        public EasyAnimation(AnimationType animationType) : base(animationType) { }
+
+        public override void Reset(AnimationType animationType)
+        {
+            base.Reset(animationType);
+
+            EaseType = AnimatorConstants.EASY_TYPE;
+            Ease = AnimatorConstants.EASE;
+            AnimationCurve = new AnimationCurve();
+        }
+
+        public Easing GetEasing()
+        {
+            return EaseType switch
+            {
+                EaseType.Ease => Ease,
+                EaseType.AnimationCurve => AnimationCurve,
+                _ => throw new NotImplementedException()
+            };
         }
     }
 
@@ -39,50 +136,23 @@ namespace Prime.UI.Animations
         public AnimationType AnimationType { get; private set; } = AnimationType.None;
 
         [field: SerializeField] public bool IsEnabled { get; private set; }
-        [field: SerializeField] public bool UseCustomFromAndTo { get; private set; }
 
         [field: SerializeField] public float StartDelay { get; private set; }
         [field: SerializeField] public float Duration { get; private set; }
 
-        [field: SerializeField] public int Vibrato { get; private set; }
-        [field: SerializeField] public float Elasticity { get; private set; }
-        [field: SerializeField] public int NumberOfCycles { get; private set; }
-
-        [field: SerializeField] public CycleMode CycleMode { get; private set; }
-        [field: SerializeField] public EaseType EaseType { get; private set; }
-
-        [field: SerializeField] public Ease Ease { get; private set; }
-        [field: SerializeField] public AnimationCurve AnimationCurve { get; private set; }
+        public Animation(AnimationType animationType)
+        {
+            Reset(animationType);
+        }
 
         public virtual void Reset(AnimationType animationType)
         {
             AnimationType = animationType;
 
             IsEnabled = AnimatorConstants.IS_ENABLED;
-            UseCustomFromAndTo = AnimatorConstants.USE_CUSTOM_FROM_AND_TO;
 
             StartDelay = AnimatorConstants.START_DELAY;
             Duration = AnimatorConstants.DURATION;
-
-            Vibrato = AnimatorConstants.VIBRATO;
-            Elasticity = AnimatorConstants.ELASTICITY;
-            NumberOfCycles = AnimatorConstants.NUMBER_OF_LOOPS;
-
-            CycleMode = AnimatorConstants.CYCLE_MODE;
-            EaseType = AnimatorConstants.EASY_TYPE;
-
-            Ease = AnimatorConstants.EASE;
-            AnimationCurve = new AnimationCurve();
-        }
-
-        public Easing GetEasing()
-        {
-            return EaseType switch
-            {
-                EaseType.Ease => Ease,
-                EaseType.AnimationCurve => AnimationCurve,
-                _ => throw new NotImplementedException()
-            };
         }
     }
 }

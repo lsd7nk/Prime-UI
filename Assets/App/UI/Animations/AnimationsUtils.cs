@@ -14,32 +14,12 @@ namespace Prime.UI.Animations
             };
         }
 
-        public static InteractableAnimationType GetInteractableAnimationType(AnimationType animationType)
-        {
-            return animationType switch
-            {
-                AnimationType.Punch => InteractableAnimationType.Punch,
-                AnimationType.Loop => InteractableAnimationType.Loop,
-                _ => throw new NotImplementedException("Not supported animation type for InteractableBehaviour")
-            };
-        }
-
         public static AnimationType GetAnimationType(NotInteractableAnimationType animationType)
         {
             return animationType switch
             {
                 NotInteractableAnimationType.Show => AnimationType.Show,
                 NotInteractableAnimationType.Hide => AnimationType.Hide,
-                _ => throw new NotImplementedException("Not supported animation type for AnimatedBehaviour")
-            };
-        }
-
-        public static AnimationType GetAnimationType(InteractableAnimationType animationType)
-        {
-            return animationType switch
-            {
-                InteractableAnimationType.Punch => AnimationType.Punch,
-                InteractableAnimationType.Loop => AnimationType.Loop,
                 _ => throw new NotImplementedException("Not supported animation type for AnimatedBehaviour")
             };
         }

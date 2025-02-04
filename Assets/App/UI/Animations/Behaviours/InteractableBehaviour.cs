@@ -1,47 +1,58 @@
 ﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 using System;
 
 namespace Prime.UI.Animations
 {
     [Serializable]
-    public sealed class InteractableBehaviour : AnimationBehaviour
+    public sealed class InteractableBehaviour : AnimationBehaviour, IExecutable
     {
-        public InteractableBehaviour(InteractableAnimationType animationType)
-            : base(AnimationsUtils.GetAnimationType(animationType)) { }
+        [SerializeField] private PunchAnimationsContainer _animations;
 
-        public override void Execute(Container animatedContainer, bool withoutAnimation = false,
-            Action onStartCallback = null, Action onFinishCallback = null)
+        public InteractableBehaviour() : base(AnimationType.Punch) { }
+
+        public void Execute(Container animatedContainer, Action onStartCallback = null)
         {
-            if (!withoutAnimation && _animations.IsEnabled)
-            {
-                ExecuteAsync(animatedContainer, onStartCallback, onFinishCallback).Forget();
-            }
-            else
-            {
-                _onStartEvent.Invoke();
-                onStartCallback?.Invoke();
-
-                _onFinishEvent.Invoke();
-                onFinishCallback?.Invoke();
-            }
+            ExecuteAsync(animatedContainer, onStartCallback).Forget();
         }
 
-        public override async UniTask ExecuteAsync(Container animatedContainer,
+        public async UniTask ExecuteAsync(Container animatedContainer,
             Action onStartCallback = null, Action onFinishCallback = null)
         {
-            switch (_animations.AnimationType)
+            _onStartEvent.Invoke();
+            onStartCallback?.Invoke();
+
+#pragma warning disable CS4014
+            if (_animations.Move.IsEnabled)
             {
-                case AnimationType.Punch:
-                {
-
-                    break;
-                }
-                case AnimationType.Loop:
-                {
-
-                    break;
-                }
+                animatedContainer.ResetPosition();
+                Animator.PunchMove(animatedContainer.RectTransform, _animations.Move);
             }
+
+            if (_animations.Rotate.IsEnabled)
+            {
+                animatedContainer.ResetRotation();
+                Animator.PunchRotate(animatedContainer.RectTransform, _animations.Rotate);
+            }
+
+            if (_animations.Scale.IsEnabled)
+            {
+                animatedContainer.ResetScale();
+                Animator.PunchScale(animatedContainer.RectTransform, _animations.Scale);
+            }
+#pragma warning restore CS4014
+
+            await UniTask.Delay((int)(_animations.TotalDuration * AnimatorConstants.UNI_TASK_DELAY_MULTIPLIER));
+
+            _onFinishEvent.Invoke();
+            onFinishCallback?.Invoke();
+        }
+
+        protected override void Reset(AnimationType animationType)
+        {
+            _animations = new PunchAnimationsContainer();
+
+            base.Reset(animationType);
         }
     }
 }

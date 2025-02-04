@@ -6,7 +6,7 @@ using System;
 namespace Prime.UI
 {
     [DisallowMultipleComponent]
-    public abstract class AnimatedComponent : MonoBehaviour
+    public abstract class AnimatedComponent : MonoBehaviour, IAnimatedComponent
     {
         public event Action OnShowStartEvent;
         public event Action OnShowFinishEvent;
@@ -14,10 +14,14 @@ namespace Prime.UI
         public event Action OnHideStartEvent;
         public event Action OnHideFinishEvent;
 
+        [SerializeField] protected Container _animatedContainer;
+
+        [Space(10), Header("Animated component")]
+        [SerializeField] protected LoopBehaviour _loopBehaviour;
+
         [SerializeField] private NotInteractableBehaviour _showBehaviour;
         [SerializeField] private NotInteractableBehaviour _hideBehaviour;
 
-        [SerializeField] private Container _animatedContainer;
 
         public AnimatedComponent()
         {
@@ -26,12 +30,26 @@ namespace Prime.UI
 
         public void Show(bool withoutAnimation = false)
         {
-            _showBehaviour.Execute(_animatedContainer, withoutAnimation, OnShowStartEvent, OnShowFinishEvent);
+            if (!withoutAnimation)
+            {
+                ShowAsync().Forget();
+            }
+            else
+            {
+                ShowInstantly();
+            }
         }
 
         public void Hide(bool withoutAnimation = false)
         {
-            _hideBehaviour.Execute(_animatedContainer, withoutAnimation, OnHideStartEvent, OnHideFinishEvent);
+            if (!withoutAnimation)
+            {
+                HideAsync().Forget();
+            }
+            else
+            {
+                HideInstantly();
+            }
         }
 
         public async UniTask ShowAsync()
@@ -56,6 +74,8 @@ namespace Prime.UI
 
         protected virtual void Reset()
         {
+            _loopBehaviour = new LoopBehaviour();
+
             _showBehaviour = new NotInteractableBehaviour(NotInteractableAnimationType.Show);
             _hideBehaviour = new NotInteractableBehaviour(NotInteractableAnimationType.Hide);
         }

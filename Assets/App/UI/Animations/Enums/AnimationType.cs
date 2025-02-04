@@ -6,6 +6,7 @@ namespace Prime.UI.Animations
         Show = 1,
         Hide = 2,
         Loop = 3,
-        Punch = 4
+        Punch = 4,
+        State = 5
     }
 }

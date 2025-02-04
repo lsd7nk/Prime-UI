@@ -4,6 +4,11 @@ namespace Prime.UI.Animations
 {
     public static class AnimatorUtils
     {
+        #region animations (loop)
+
+        #endregion
+
+        #region animations (show & hide)
         public static Vector3 GetMoveFrom(RectTransform target, MoveAnimation animation, Vector3 startValue)
         {
             return animation.AnimationType switch
@@ -40,7 +45,7 @@ namespace Prime.UI.Animations
             };
         }
 
-        public static Vector3 GetRotateFrom(RotateAnimation animation, Vector3 startValue)
+        public static Vector3 GetRotateFrom(Animation<Vector3> animation, Vector3 startValue)
         {
             return animation.AnimationType switch
             {
@@ -53,7 +58,7 @@ namespace Prime.UI.Animations
             };
         }
 
-        public static Vector3 GetRotateTo(RotateAnimation animation, Vector3 startValue)
+        public static Vector3 GetRotateTo(Animation<Vector3> animation, Vector3 startValue)
         {
             return animation.AnimationType switch
             {
@@ -66,7 +71,7 @@ namespace Prime.UI.Animations
             };
         }
 
-        public static Vector3 GetScaleFrom(ScaleAnimation animation, Vector3 startValue)
+        public static Vector3 GetScaleFrom(Animation<Vector3> animation, Vector3 startValue)
         {
             return animation.AnimationType switch
             {
@@ -79,7 +84,7 @@ namespace Prime.UI.Animations
             };
         }
 
-        public static Vector3 GetScaleTo(ScaleAnimation animation, Vector3 startValue)
+        public static Vector3 GetScaleTo(Animation<Vector3> animation, Vector3 startValue)
         {
             return animation.AnimationType switch
             {
@@ -92,7 +97,7 @@ namespace Prime.UI.Animations
             };
         }
 
-        public static float GetFadeFrom(FadeAnimation animation, float startValue)
+        public static float GetFadeFrom(Animation<float> animation, float startValue)
         {
             return animation.AnimationType switch
             {
@@ -105,7 +110,7 @@ namespace Prime.UI.Animations
             };
         }
 
-        public static float GetFadeTo(FadeAnimation animation, float startValue)
+        public static float GetFadeTo(Animation<float> animation, float startValue)
         {
             return animation.AnimationType switch
             {
@@ -145,5 +150,6 @@ namespace Prime.UI.Animations
                 _ => Vector3.zero
             };
         }
+        #endregion
     }
 }
