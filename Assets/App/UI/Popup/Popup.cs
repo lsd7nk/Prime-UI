@@ -7,13 +7,13 @@ namespace Prime.UI.Popup
     {
         [Space(10), Header("Popup")]
         [SerializeField] private Container _overlay;
-        [SerializeField] private bool _deestroyAfterHide;
+        [SerializeField] private bool _destroyAfterHide;
 
         public async override UniTask HideAsync()
         {
             await base.HideAsync();
 
-            if (!_deestroyAfterHide)
+            if (!_destroyAfterHide)
             {
                 return;
             }
@@ -25,7 +25,7 @@ namespace Prime.UI.Popup
         {
             base.HideInstantly();
 
-            if (!_deestroyAfterHide)
+            if (!_destroyAfterHide)
             {
                 return;
             }
