@@ -17,10 +17,11 @@ namespace Prime.UI
         [SerializeField] protected Container _animatedContainer;
 
         [Space(10), Header("Animated component")]
+        [SerializeField] protected LoopBehaviour _loopBehaviour;
+
         [SerializeField] private NotInteractableBehaviour _showBehaviour;
         [SerializeField] private NotInteractableBehaviour _hideBehaviour;
 
-        [SerializeField] private LoopBehaviour _loopBehaviour;
 
         public AnimatedComponent()
         {
@@ -73,10 +74,10 @@ namespace Prime.UI
 
         protected virtual void Reset()
         {
+            _loopBehaviour = new LoopBehaviour();
+
             _showBehaviour = new NotInteractableBehaviour(NotInteractableAnimationType.Show);
             _hideBehaviour = new NotInteractableBehaviour(NotInteractableAnimationType.Hide);
-
-            _loopBehaviour = new LoopBehaviour();
         }
     }
 }
