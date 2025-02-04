@@ -8,59 +8,80 @@ namespace Prime.UI.Animations
         private const float LOOP_DURATION_MULTIPLIER = 0.5f;
 
         #region animations (loop)
-        public static Sequence LoopMove(RectTransform target, LoopAnimation<Vector3> animation,
+        public static Tween StartLoopMove(RectTransform target, LoopAnimation<Vector3> animation,
             Vector3 startValue)
         {
             var positionA = startValue - animation.By;
-            var positionB = startValue + animation.By;
 
-            return Sequence.Create()
-                .Chain(Tween.UIAnchoredPosition(target, positionA, animation.Duration * LOOP_DURATION_MULTIPLIER,
-                    animation.GetEasing(), startDelay: animation.StartDelay))
-                .Chain(Tween.UIAnchoredPosition(target, positionB, animation.Duration,
-                    animation.GetEasing(), animation.Cycles, animation.CycleMode));
+            return Tween.UIAnchoredPosition(target, positionA, animation.Duration * LOOP_DURATION_MULTIPLIER,
+                    animation.GetEasing(), startDelay: animation.StartDelay);
         }
 
-        public static Sequence LoopRotate(RectTransform target, LoopAnimation<Vector3> animation,
+        public static Tween StartLoopRotate(RectTransform target, LoopAnimation<Vector3> animation,
             Vector3 startValue)
         {
             var rotationA = startValue - animation.By;
-            var rotationB = startValue + animation.By;
 
-            return Sequence.Create()
-                .Chain(Tween.LocalRotation(target, rotationA, animation.Duration * LOOP_DURATION_MULTIPLIER,
-                    animation.GetEasing(), startDelay: animation.StartDelay))
-                .Chain(Tween.LocalRotation(target, rotationB, animation.Duration,
-                    animation.GetEasing(), animation.Cycles, animation.CycleMode));
+            return Tween.LocalRotation(target, rotationA, animation.Duration * LOOP_DURATION_MULTIPLIER,
+                    animation.GetEasing(), startDelay: animation.StartDelay);
         }
 
-        public static Sequence LoopScale(RectTransform target, LoopAnimation<Vector3> animation,
+        public static Tween StartLoopScale(RectTransform target, LoopAnimation<Vector3> animation,
             Vector3 startValue)
         {
             var scaleA = startValue - animation.By;
-            var scaleB = startValue + animation.By;
 
             scaleA.z = 1f;
-            scaleB.z = 1f;
 
-            return Sequence.Create()
-                .Chain(Tween.Scale(target, scaleA, animation.Duration * LOOP_DURATION_MULTIPLIER,
-                    animation.GetEasing(), startDelay: animation.StartDelay))
-                .Chain(Tween.Scale(target, scaleB, animation.Duration,
-                    animation.GetEasing(), animation.Cycles, animation.CycleMode));
+            return Tween.Scale(target, scaleA, animation.Duration * LOOP_DURATION_MULTIPLIER,
+                    animation.GetEasing(), startDelay: animation.StartDelay);
         }
 
-        public static Sequence LoopFade(CanvasGroup target, LoopAnimation<float> animation,
+        public static Tween StartLoopFade(CanvasGroup target, LoopAnimation<float> animation,
             float startValue)
         {
             var fadeA = startValue - animation.By;
+
+            return Tween.Alpha(target, fadeA, animation.Duration * LOOP_DURATION_MULTIPLIER,
+                    animation.GetEasing(), startDelay: animation.StartDelay);
+        }
+
+        public static Tween LoopMove(RectTransform target, LoopAnimation<Vector3> animation,
+            Vector3 startValue)
+        {
+            var positionB = startValue + animation.By;
+
+            return Tween.UIAnchoredPosition(target, positionB, animation.Duration * LOOP_DURATION_MULTIPLIER,
+                    animation.GetEasing(), animation.Cycles, animation.CycleMode);
+        }
+
+        public static Tween LoopRotate(RectTransform target, LoopAnimation<Vector3> animation,
+            Vector3 startValue)
+        {
+            var rotationB = startValue + animation.By;
+
+            return Tween.LocalRotation(target, rotationB, animation.Duration * LOOP_DURATION_MULTIPLIER,
+                    animation.GetEasing(), animation.Cycles, animation.CycleMode);
+        }
+
+        public static Tween LoopScale(RectTransform target, LoopAnimation<Vector3> animation,
+            Vector3 startValue)
+        {
+            var scaleB = startValue + animation.By;
+
+            scaleB.z = 1f;
+
+            return Tween.Scale(target, scaleB, animation.Duration * LOOP_DURATION_MULTIPLIER,
+                    animation.GetEasing(), animation.Cycles, animation.CycleMode);
+        }
+
+        public static Tween LoopFade(CanvasGroup target, LoopAnimation<float> animation,
+            float startValue)
+        {
             var fadeB = startValue + animation.By;
 
-            return Sequence.Create()
-                .Chain(Tween.Alpha(target, fadeA, animation.Duration * LOOP_DURATION_MULTIPLIER,
-                    animation.GetEasing(), startDelay: animation.StartDelay))
-                .Chain(Tween.Alpha(target, fadeB, animation.Duration,
-                    animation.GetEasing(), animation.Cycles, animation.CycleMode));
+            return Tween.Alpha(target, fadeB, animation.Duration * LOOP_DURATION_MULTIPLIER,
+                    animation.GetEasing(), animation.Cycles, animation.CycleMode);
         }
         #endregion
 
