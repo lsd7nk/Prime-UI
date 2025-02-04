@@ -22,7 +22,6 @@ namespace Prime.UI
         [SerializeField] private NotInteractableBehaviour _showBehaviour;
         [SerializeField] private NotInteractableBehaviour _hideBehaviour;
 
-
         public AnimatedComponent()
         {
             Reset();
@@ -54,12 +53,12 @@ namespace Prime.UI
 
         public async UniTask ShowAsync()
         {
-            await _showBehaviour.ExecuteAsync(_animatedContainer);
+            await _showBehaviour.ExecuteAsync(_animatedContainer, OnShowStartEvent, OnShowFinishEvent);
         }
 
         public async virtual UniTask HideAsync()
         {
-            await _hideBehaviour.ExecuteAsync(_animatedContainer);
+            await _hideBehaviour.ExecuteAsync(_animatedContainer, OnHideStartEvent, OnHideFinishEvent);
         }
 
         public void ShowInstantly()
