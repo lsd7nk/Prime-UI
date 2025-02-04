@@ -23,7 +23,7 @@ namespace Prime.UI.Animations
         public const float ASYMMETRY_FACTOR = 0;
         public const int CYCLES = 1;
 
-        public const CycleMode CYCLE_MODE = CycleMode.Restart;
+        public const CycleMode CYCLE_MODE = CycleMode.Yoyo;
         public const EaseType EASY_TYPE = EaseType.Ease;
 
         public const Ease EASE = Ease.Linear;

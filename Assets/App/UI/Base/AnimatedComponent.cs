@@ -20,6 +20,8 @@ namespace Prime.UI
         [SerializeField] private NotInteractableBehaviour _showBehaviour;
         [SerializeField] private NotInteractableBehaviour _hideBehaviour;
 
+        [SerializeField] private LoopBehaviour _loopBehaviour;
+
         public AnimatedComponent()
         {
             Reset();
@@ -73,6 +75,8 @@ namespace Prime.UI
         {
             _showBehaviour = new NotInteractableBehaviour(NotInteractableAnimationType.Show);
             _hideBehaviour = new NotInteractableBehaviour(NotInteractableAnimationType.Hide);
+
+            _loopBehaviour = new LoopBehaviour();
         }
     }
 }

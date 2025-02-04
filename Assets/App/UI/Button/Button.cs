@@ -18,9 +18,6 @@ namespace Prime.UI.Button
         [SerializeField] private InteractableBehaviour _pointerDownBehaviour;
         [SerializeField] private InteractableBehaviour _pointerUpBehaviour;
 
-        [Space(10)]
-        [SerializeField] private LoopBehaviour _idleLoopBehaviour;
-
         public void OnPointerClick(PointerEventData eventData)
         {
             _pointerClickBehaviour.Execute(_animatedContainer);
@@ -46,11 +43,6 @@ namespace Prime.UI.Button
             _pointerClickBehaviour = new InteractableBehaviour();
             _pointerDownBehaviour = new InteractableBehaviour();
             _pointerUpBehaviour = new InteractableBehaviour();
-        }
-
-        private void Start()
-        {
-            _idleLoopBehaviour.Execute(_animatedContainer);
         }
     }
 }

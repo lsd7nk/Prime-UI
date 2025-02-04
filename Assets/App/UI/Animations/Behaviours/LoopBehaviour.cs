@@ -63,6 +63,7 @@ namespace Prime.UI.Animations
             Animator.LoopScale(animatedContainer.RectTransform, _animations.Scale,
                     animatedContainer.StartScale);
         }
+
         private void LoopFade(Container animatedContainer)
         {
             Animator.LoopFade(animatedContainer.CanvasGroup, _animations.Fade,
