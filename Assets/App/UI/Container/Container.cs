@@ -8,7 +8,7 @@ using UnityEditor;
 namespace Prime.UI
 {
     [Serializable]
-    public sealed class Container : BaseComponent
+    public sealed partial class Container : BaseComponent
     {
         public Vector3 StartPosition { get; private set; } = AnimatorConstants.START_POSITION;
         public Vector3 StartRotation { get; private set; } = AnimatorConstants.START_ROTATION;
@@ -42,12 +42,32 @@ namespace Prime.UI
             ResetScale();
             ResetAlpha();
         }
+    }
 
+
+    public sealed partial class Container
+    {
 #if UNITY_EDITOR
+        public static Container CreateComponent(GameObject parentObject, string name = "Container")
+        {
+            var overlayObject = new GameObject(name, typeof(RectTransform), typeof(Container));
+
+            if (parentObject != null)
+            {
+                GameObjectUtility.SetParentAndAlign(overlayObject, parentObject);
+            }
+
+            Undo.RegisterCreatedObjectUndo(overlayObject, "Create " + name);
+
+            return overlayObject.GetComponent<Container>();
+        }
+
         [MenuItem(PrimeUtils.CONTAINER_PATH, false, PrimeUtils.COMPONENT_PRIORITY)]
         private static void CreateComponent(MenuCommand menuCommand)
         {
+            var container = CreateComponent(menuCommand.context as GameObject);
 
+            container.Initialize();
         }
 #endif
     }

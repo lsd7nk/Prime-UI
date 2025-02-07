@@ -7,5 +7,18 @@ namespace Prime.UI
     {
         [field: SerializeField] public RectTransform RectTransform { get; private set; }
         [field: SerializeField] public CanvasGroup CanvasGroup { get; private set; }
+
+        public void Initialize()
+        {
+            if (RectTransform == null)
+            {
+                RectTransform = GetComponent<RectTransform>();
+            }
+
+            if (CanvasGroup == null)
+            {
+                CanvasGroup = GetComponent<CanvasGroup>();
+            }
+        }
     }
 }
