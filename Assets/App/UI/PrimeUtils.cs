@@ -1,3 +1,6 @@
+using UnityEngine.UI;
+using UnityEngine;
+
 namespace Prime.UI
 {
     public static class PrimeUtils
@@ -16,5 +19,43 @@ namespace Prime.UI
         public const int COMPONENT_PRIORITY = 0;
 
         private const string COMPONENTS_PATH = "GameObject/UI/Prime/";
+
+        public static GameObject GetCanvasAsParent(GameObject selectedObject)
+        {
+            if (selectedObject == null)
+            {
+                return CreateCanvasAsParent();
+            }
+
+            if (selectedObject.TryGetComponent<Canvas>(out _))
+            {
+                return selectedObject;
+            }
+            
+            return CreateCanvasAsParent(selectedObject);
+        }
+
+        private static GameObject CreateCanvasAsParent()
+        {
+            return CreateCanvasAsParent(new GameObject("MasterCanvas", typeof(RectTransform)));
+        }
+
+        private static GameObject CreateCanvasAsParent(GameObject gameObject)
+        {
+            var canvas = gameObject.AddComponent<Canvas>();
+
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.sortingOrder = 0;
+
+            var canvasScaler = gameObject.AddComponent<CanvasScaler>();
+
+            canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            canvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
+            canvasScaler.referenceResolution = new Vector2(1080, 1920);
+
+            gameObject.AddComponent<GraphicRaycaster>();
+
+            return gameObject;
+        }
     }
 }
