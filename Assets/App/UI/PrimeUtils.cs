@@ -15,6 +15,7 @@ namespace Prime.UI
         public const string BUTTON = "Button";
         public const string POPUP = "Popup";
         public const string VIEW = "View";
+        public const string ICON = "Icon";
 
         public const int COMPONENT_PRIORITY = 0;
 
