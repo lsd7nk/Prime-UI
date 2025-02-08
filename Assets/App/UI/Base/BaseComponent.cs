@@ -3,11 +3,15 @@ using UnityEngine;
 namespace Prime.UI
 {
     [RequireComponent(typeof(RectTransform), typeof(CanvasGroup), typeof(Canvas))]
-    public abstract class BaseComponent : MonoBehaviour
+    public abstract partial class BaseComponent : MonoBehaviour
     {
         [field: SerializeField] public RectTransform RectTransform { get; private set; }
         [field: SerializeField] public CanvasGroup CanvasGroup { get; private set; }
+    }
 
+
+    public abstract partial class BaseComponent : IInitializable
+    {
         public void Initialize()
         {
             if (RectTransform == null)

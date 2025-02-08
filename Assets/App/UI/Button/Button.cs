@@ -52,7 +52,7 @@ namespace Prime.UI.Button
 
 
 #if UNITY_EDITOR
-    public sealed partial class Button
+    public sealed partial class Button : IInitializable
     {
         public void Initialize()
         {

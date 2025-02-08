@@ -42,7 +42,7 @@ namespace Prime.UI.Popup
 
 
 #if UNITY_EDITOR
-    public sealed partial class Popup
+    public sealed partial class Popup : IInitializable
     {
         public void Initialize()
         {

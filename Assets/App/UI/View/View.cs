@@ -14,7 +14,7 @@ namespace Prime.UI.View
 
 
 #if UNITY_EDITOR
-    public sealed partial class View
+    public sealed partial class View : IInitializable
     {
         public void Initialize()
         {
