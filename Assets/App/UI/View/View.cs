@@ -7,7 +7,14 @@ using UnityEditor;
 namespace Prime.UI.View
 {
     [RequireComponent(typeof(Container))]
-    public sealed class View : AnimatedComponent
+    public sealed partial class View : AnimatedComponent
+    {
+
+    }
+
+
+#if UNITY_EDITOR
+    public sealed partial class View
     {
         public void Initialize()
         {
@@ -17,7 +24,6 @@ namespace Prime.UI.View
             }
         }
 
-#if UNITY_EDITOR
         [MenuItem(PrimeUtils.VIEW_PATH, false, PrimeUtils.COMPONENT_PRIORITY)]
         private static void CreateComponent(MenuCommand menuCommand)
         {
@@ -36,6 +42,6 @@ namespace Prime.UI.View
             container.Initialize();
             view.Initialize();
         }
-#endif
     }
+#endif
 }
