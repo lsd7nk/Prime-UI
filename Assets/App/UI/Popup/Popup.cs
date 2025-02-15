@@ -39,20 +39,6 @@ namespace Prime.UI.Popup
 
             Destroy(gameObject);
         }
-
-        private async UniTaskVoid ShowTest()
-        {
-            ShowAsync();
-
-            await UniTask.Delay(3000);
-
-            HideAsync();
-        }
-
-        private void Awake()
-        {
-            ShowTest().Forget();
-        }
     }
 
 
