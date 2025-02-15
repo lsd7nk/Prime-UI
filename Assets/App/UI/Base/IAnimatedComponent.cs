@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using System.Threading;
 using System;
 
 namespace Prime.UI
@@ -14,8 +15,8 @@ namespace Prime.UI
         public void Show(bool withoutAnimation = false);
         public void Hide(bool withoutAnimation = false);
 
-        public UniTask ShowAsync();
-        public UniTask HideAsync();
+        public UniTask ShowAsync(CancellationToken cancellationToken = default);
+        public UniTask HideAsync(CancellationToken cancellationToken = default);
 
         public void ShowInstantly();
         public void HideInstantly();

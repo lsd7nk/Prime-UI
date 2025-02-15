@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using System.Threading;
 using UnityEngine;
 using System;
 
@@ -8,6 +9,8 @@ namespace Prime.UI.Animations
     public sealed class NotInteractableBehaviour : AnimationBehaviour,
         IAsyncExecutable, IInstantlyExecutable
     {
+        protected override int MaxTweensCount => 4;
+
         [SerializeField] private AlphaAnimationsContainer _animations;
 
         public NotInteractableBehaviour(NotInteractableAnimationType animationType)
@@ -44,7 +47,7 @@ namespace Prime.UI.Animations
             _onFinishEvent.Invoke();
         }
 
-        public async UniTask ExecuteAsync(Container animatedContainer,
+        public async UniTask ExecuteAsync(Container animatedContainer, CancellationToken cancellationToken = default,
             Action onStartCallback = null, Action onFinishCallback = null)
         {
             _onStartEvent.Invoke();
@@ -58,7 +61,7 @@ namespace Prime.UI.Animations
                 var endValue = AnimatorUtils.GetMoveTo(animatedContainer.RectTransform,
                     _animations.Move, animatedContainer.StartPosition);
 
-                Animator.Move(animatedContainer.RectTransform, _animations.Move, startValue, endValue);
+                AddAnimation(Animator.Move(animatedContainer.RectTransform, _animations.Move, startValue, endValue));
             }
             else
             {
@@ -72,7 +75,7 @@ namespace Prime.UI.Animations
                 var endValue = AnimatorUtils.GetRotateTo(_animations.Rotate,
                     animatedContainer.StartRotation);
 
-                Animator.Rotate(animatedContainer.RectTransform, _animations.Rotate, startValue, endValue);
+                AddAnimation(Animator.Rotate(animatedContainer.RectTransform, _animations.Rotate, startValue, endValue));
             }
             else
             {
@@ -86,7 +89,7 @@ namespace Prime.UI.Animations
                 var endValue = AnimatorUtils.GetScaleTo(_animations.Scale,
                     animatedContainer.StartScale);
 
-                Animator.Scale(animatedContainer.RectTransform, _animations.Scale, startValue, endValue);
+                AddAnimation(Animator.Scale(animatedContainer.RectTransform, _animations.Scale, startValue, endValue));
             }
             else
             {
@@ -100,7 +103,7 @@ namespace Prime.UI.Animations
                 var endValue = AnimatorUtils.GetFadeTo(_animations.Fade,
                     animatedContainer.StartAlpha);
 
-                Animator.Fade(animatedContainer.CanvasGroup, _animations.Fade, startValue, endValue);
+                AddAnimation(Animator.Fade(animatedContainer.CanvasGroup, _animations.Fade, startValue, endValue));
             }
             else
             {
@@ -108,7 +111,7 @@ namespace Prime.UI.Animations
             }
 #pragma warning restore CS4014
 
-            await UniTask.Delay((int)(_animations.TotalDuration * AnimatorConstants.UNI_TASK_DELAY_MULTIPLIER));
+            await WaitEndOfAnimation(_animations.TotalDuration, cancellationToken);
 
             _onFinishEvent.Invoke();
             onFinishCallback?.Invoke();

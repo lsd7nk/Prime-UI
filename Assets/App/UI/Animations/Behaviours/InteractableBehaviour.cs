@@ -1,24 +1,30 @@
 ﻿using Cysharp.Threading.Tasks;
+using System.Threading;
 using UnityEngine;
 using System;
 
 namespace Prime.UI.Animations
 {
     [Serializable]
-    public sealed class InteractableBehaviour : AnimationBehaviour, IExecutable
+    public sealed class InteractableBehaviour : AnimationBehaviour,
+        IExecutable, IAsyncExecutable
     {
+        protected override int MaxTweensCount => 3;
+
         [SerializeField] private PunchAnimationsContainer _animations;
 
         public InteractableBehaviour() : base(AnimationType.Punch) { }
 
         public void Execute(Container animatedContainer, Action onStartCallback = null)
         {
-            ExecuteAsync(animatedContainer, onStartCallback).Forget();
+            ExecuteAsync(animatedContainer, onStartCallback: onStartCallback).Forget();
         }
 
-        public async UniTask ExecuteAsync(Container animatedContainer,
+        public async UniTask ExecuteAsync(Container animatedContainer, CancellationToken cancellationToken = default,
             Action onStartCallback = null, Action onFinishCallback = null)
         {
+            CancelAnimations();
+
             _onStartEvent.Invoke();
             onStartCallback?.Invoke();
 
@@ -26,23 +32,23 @@ namespace Prime.UI.Animations
             if (_animations.Move.IsEnabled)
             {
                 animatedContainer.ResetPosition();
-                Animator.PunchMove(animatedContainer.RectTransform, _animations.Move);
+                AddAnimation(Animator.PunchMove(animatedContainer.RectTransform, _animations.Move));
             }
 
             if (_animations.Rotate.IsEnabled)
             {
                 animatedContainer.ResetRotation();
-                Animator.PunchRotate(animatedContainer.RectTransform, _animations.Rotate);
+                AddAnimation(Animator.PunchRotate(animatedContainer.RectTransform, _animations.Rotate));
             }
 
             if (_animations.Scale.IsEnabled)
             {
                 animatedContainer.ResetScale();
-                Animator.PunchScale(animatedContainer.RectTransform, _animations.Scale);
+                AddAnimation(Animator.PunchScale(animatedContainer.RectTransform, _animations.Scale));
             }
 #pragma warning restore CS4014
 
-            await UniTask.Delay((int)(_animations.TotalDuration * AnimatorConstants.UNI_TASK_DELAY_MULTIPLIER));
+            await WaitEndOfAnimation(_animations.TotalDuration, cancellationToken);
 
             _onFinishEvent.Invoke();
             onFinishCallback?.Invoke();

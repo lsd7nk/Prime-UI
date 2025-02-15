@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Prime.UI.Animations;
+using System.Threading;
 using UnityEngine;
 using System;
 
@@ -51,14 +52,16 @@ namespace Prime.UI
             }
         }
 
-        public async UniTask ShowAsync()
+        public async UniTask ShowAsync(CancellationToken cancellationToken = default)
         {
-            await _showBehaviour.ExecuteAsync(_animatedContainer, OnShowStartEvent, OnShowFinishEvent);
+            await _showBehaviour.ExecuteAsync(_animatedContainer, cancellationToken,
+                OnShowStartEvent, OnShowFinishEvent);
         }
 
-        public async virtual UniTask HideAsync()
+        public async virtual UniTask HideAsync(CancellationToken cancellationToken = default)
         {
-            await _hideBehaviour.ExecuteAsync(_animatedContainer, OnHideStartEvent, OnHideFinishEvent);
+            await _hideBehaviour.ExecuteAsync(_animatedContainer, cancellationToken,
+                OnHideStartEvent, OnHideFinishEvent);
         }
 
         public void ShowInstantly()

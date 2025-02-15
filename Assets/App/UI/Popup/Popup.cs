@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using Prime.UI.Extensions;
+using System.Threading;
 using UnityEngine.UI;
 using UnityEngine;
 #if UNITY_EDITOR
@@ -15,9 +16,9 @@ namespace Prime.UI.Popup
         [SerializeField] private Container _overlay;
         [SerializeField] private bool _destroyAfterHide;
 
-        public async override UniTask HideAsync()
+        public async override UniTask HideAsync(CancellationToken cancellationToken = default)
         {
-            await base.HideAsync();
+            await base.HideAsync(cancellationToken);
 
             if (!_destroyAfterHide)
             {
@@ -37,6 +38,20 @@ namespace Prime.UI.Popup
             }
 
             Destroy(gameObject);
+        }
+
+        private async UniTaskVoid ShowTest()
+        {
+            ShowAsync();
+
+            await UniTask.Delay(3000);
+
+            HideAsync();
+        }
+
+        private void Awake()
+        {
+            ShowTest().Forget();
         }
     }
 
