@@ -16,8 +16,6 @@ namespace Prime.UI.Animations
         [SerializeField] protected UnityEvent _onStartEvent;
         [SerializeField] protected UnityEvent _onFinishEvent;
 
-        protected CancellationTokenSource _cts;
-
 #if UNITY_EDITOR
         [ReadOnly]
 #endif
@@ -30,14 +28,10 @@ namespace Prime.UI.Animations
 
         protected async UniTask WaitEndOfAnimation(float duration, CancellationToken cancellationToken = default)
         {
-            var token = cancellationToken == default
-                ? _cts.Token
-                : cancellationToken;
-
             try
             {
                 await UniTask.Delay((int)(duration * AnimatorConstants.UNI_TASK_DELAY_MULTIPLIER),
-                    cancellationToken: token);
+                    cancellationToken: cancellationToken);
             }
             catch (OperationCanceledException ex) { }
             finally
@@ -51,24 +45,15 @@ namespace Prime.UI.Animations
             _tweens.Add(tween);
         }
 
-        protected void CancelAnimations()
-        {
-            _cts.Cancel();
-            _cts.Dispose();
-
-            _cts = new CancellationTokenSource();
-        }
-
         protected virtual void Reset(AnimationType animationType)
         {
             _onStartEvent?.RemoveAllListeners();
             _onFinishEvent?.RemoveAllListeners();
 
             _tweens = new List<Tween>(MaxTweensCount);
-            _cts = new CancellationTokenSource();
         }
 
-        private void StopAnimations()
+        protected void StopAnimations()
         {
             for (int i = 0; i < _tweens.Count; ++i)
             {

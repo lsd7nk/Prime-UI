@@ -50,6 +50,8 @@ namespace Prime.UI.Animations
         public async UniTask ExecuteAsync(Container animatedContainer, CancellationToken cancellationToken = default,
             Action onStartCallback = null, Action onFinishCallback = null)
         {
+            StopAnimations();
+
             _onStartEvent.Invoke();
             onStartCallback?.Invoke();
 
