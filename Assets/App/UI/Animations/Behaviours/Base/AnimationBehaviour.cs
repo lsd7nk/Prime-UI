@@ -11,15 +11,14 @@ namespace Prime.UI.Animations
     [Serializable]
     public abstract class AnimationBehaviour
     {
+        public bool AnimationProcessed { get; private set; }
+
         protected abstract int MaxTweensCount { get; }
 
         [SerializeField] protected UnityEvent _onStartEvent;
         [SerializeField] protected UnityEvent _onFinishEvent;
 
-#if UNITY_EDITOR
-        [ReadOnly]
-#endif
-        [SerializeField] private List<Tween> _tweens;
+        private List<Tween> _tweens;
 
         public AnimationBehaviour(AnimationType animationType)
         {
@@ -28,14 +27,17 @@ namespace Prime.UI.Animations
 
         protected async UniTask WaitEndOfAnimation(float duration, CancellationToken cancellationToken = default)
         {
+            AnimationProcessed = true;
+
             try
             {
                 await UniTask.Delay((int)(duration * AnimatorConstants.UNI_TASK_DELAY_MULTIPLIER),
                     cancellationToken: cancellationToken);
             }
-            catch (OperationCanceledException ex) { }
+            catch (OperationCanceledException) { }
             finally
             {
+                AnimationProcessed = false;
                 StopAnimations();
             }
         }
@@ -57,7 +59,14 @@ namespace Prime.UI.Animations
         {
             for (int i = 0; i < _tweens.Count; ++i)
             {
-                _tweens[i].Stop();
+                var tween = _tweens[i];
+
+                if (!tween.isAlive)
+                {
+                    continue;
+                }
+
+                tween.Stop();
             }
 
             _tweens.Clear();

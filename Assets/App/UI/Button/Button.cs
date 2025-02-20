@@ -1,4 +1,5 @@
 using UnityEngine.EventSystems;
+using Cysharp.Threading.Tasks;
 using Prime.UI.Extensions;
 using Prime.UI.Animations;
 using UnityEngine.UI;
@@ -24,19 +25,19 @@ namespace Prime.UI.Button
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            _pointerClickBehaviour.Execute(_animatedContainer);
+            _pointerClickBehaviour.ExecuteAsync(_animatedContainer).Forget();
             OnPointerClickEvent?.Invoke();
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            _pointerDownBehaviour.Execute(_animatedContainer);
+            _pointerDownBehaviour.ExecuteAsync(_animatedContainer).Forget();
             OnPointerDownEvent?.Invoke();
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            _pointerUpBehaviour.Execute(_animatedContainer);
+            _pointerUpBehaviour.ExecuteAsync(_animatedContainer).Forget();
             OnPointerUpEvent?.Invoke();
         }
 
