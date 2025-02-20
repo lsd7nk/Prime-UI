@@ -18,7 +18,7 @@ namespace Prime.UI
         [SerializeField] protected Container _animatedContainer;
 
         [Space(10), Header(PrimeUtils.ANIMATED_COMPONENT)]
-        [SerializeField] protected LoopBehaviour _loopBehaviour;
+        [SerializeField] private LoopBehaviour _loopBehaviour;
 
         [SerializeField] private NotInteractableBehaviour _showBehaviour;
         [SerializeField] private NotInteractableBehaviour _hideBehaviour;
@@ -54,12 +54,22 @@ namespace Prime.UI
 
         public async UniTask ShowAsync(CancellationToken cancellationToken = default)
         {
+            if (_hideBehaviour.AnimationProcessed)
+            {
+                return;
+            }
+
             await _showBehaviour.ExecuteAsync(_animatedContainer, cancellationToken,
                 OnShowStartEvent, OnShowFinishEvent);
         }
 
         public async virtual UniTask HideAsync(CancellationToken cancellationToken = default)
         {
+            if (_showBehaviour.AnimationProcessed)
+            {
+                return;
+            }
+
             await _hideBehaviour.ExecuteAsync(_animatedContainer, cancellationToken,
                 OnHideStartEvent, OnHideFinishEvent);
         }
@@ -74,12 +84,34 @@ namespace Prime.UI
             _hideBehaviour.ExecuteInstantly(_animatedContainer);
         }
 
+        //private void ShowLoopAnimation()
+        //{
+        //    _loopBehaviour.Execute(_animatedContainer);
+        //}
+
+        //private void StopLoopAnimation()
+        //{
+        //    _loopBehaviour.StopAnimation();
+        //}
+
         protected virtual void Reset()
         {
             _loopBehaviour = new LoopBehaviour();
 
             _showBehaviour = new NotInteractableBehaviour(NotInteractableAnimationType.Show);
             _hideBehaviour = new NotInteractableBehaviour(NotInteractableAnimationType.Hide);
+        }
+
+        protected virtual void Start()
+        {
+            //OnShowFinishEvent += ShowLoopAnimation;
+            //OnHideStartEvent += StopLoopAnimation;
+        }
+
+        protected virtual void OnDestroy()
+        {
+            //OnShowFinishEvent -= ShowLoopAnimation;
+            //OnHideStartEvent -= StopLoopAnimation;
         }
     }
 }

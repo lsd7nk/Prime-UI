@@ -6,7 +6,7 @@ namespace Prime.UI.Animations
 {
     public interface IExecutable
     {
-        void Execute(Container animatedContainer, Action onStartCallback = null);
+        void Execute(Container animatedContainer);
     }
 
     public interface IAsyncExecutable

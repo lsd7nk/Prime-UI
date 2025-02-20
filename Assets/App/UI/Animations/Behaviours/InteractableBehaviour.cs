@@ -6,8 +6,7 @@ using System;
 namespace Prime.UI.Animations
 {
     [Serializable]
-    public sealed class InteractableBehaviour : AnimationBehaviour,
-        IExecutable, IAsyncExecutable
+    public sealed class InteractableBehaviour : AnimationBehaviour, IAsyncExecutable
     {
         protected override int MaxTweensCount => 3;
 
@@ -15,15 +14,13 @@ namespace Prime.UI.Animations
 
         public InteractableBehaviour() : base(AnimationType.Punch) { }
 
-        public void Execute(Container animatedContainer, Action onStartCallback = null)
-        {
-            ExecuteAsync(animatedContainer, onStartCallback: onStartCallback).Forget();
-        }
-
         public async UniTask ExecuteAsync(Container animatedContainer, CancellationToken cancellationToken = default,
             Action onStartCallback = null, Action onFinishCallback = null)
         {
-             StopAnimations();
+            if (AnimationProcessed)
+            {
+                return;
+            }
 
             _onStartEvent.Invoke();
             onStartCallback?.Invoke();
