@@ -1,24 +1,17 @@
 using Cysharp.Threading.Tasks;
 using System.Threading;
-using System;
 
 namespace Prime.UI
 {
-    public interface IAnimatedComponent
+    public interface IAnimatedComponent : IBaseAnimatedComponent
     {
-        public event Action OnShowStartEvent;
-        public event Action OnShowFinishEvent;
+        void Show(bool withoutAnimation = false);
+        void Hide(bool withoutAnimation = false);
 
-        public event Action OnHideStartEvent;
-        public event Action OnHideFinishEvent;
+        UniTask ShowAsync(CancellationToken cancellationToken = default);
+        UniTask HideAsync(CancellationToken cancellationToken = default);
 
-        public void Show(bool withoutAnimation = false);
-        public void Hide(bool withoutAnimation = false);
-
-        public UniTask ShowAsync(CancellationToken cancellationToken = default);
-        public UniTask HideAsync(CancellationToken cancellationToken = default);
-
-        public void ShowInstantly();
-        public void HideInstantly();
+        void ShowInstantly();
+        void HideInstantly();
     }
 }

@@ -6,6 +6,22 @@ namespace Prime.UI.Animations
     [Serializable]
     public sealed class LoopAnimationsContainer : AnimationsContainer<LoopAnimation<Vector3>>
     {
+        public int Cycles
+        {
+            get
+            {
+                if (!IsEnabled)
+                {
+                    return 0;
+                }
+
+                return Mathf.Max(Move.IsEnabled ? Move.Cycles : 0,
+                                 Rotate.IsEnabled ? Rotate.Cycles : 0,
+                                 Scale.IsEnabled ? Scale.Cycles : 0,
+                                 Fade.IsEnabled ? Fade.Cycles : 0);
+            }
+        }
+
         public override bool IsEnabled
         {
             get
@@ -35,7 +51,7 @@ namespace Prime.UI.Animations
             }
         }
 
-        public override float TotalDuration
+        public override float Duration
         {
             get
             {

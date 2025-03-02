@@ -18,7 +18,10 @@ namespace Prime.UI.Animations
 
         public void ExecuteInstantly(Container animatedContainer)
         {
-            _onStartEvent.Invoke();
+            if (AnimationProcessed)
+            {
+                return;
+            }
 
             var endMoveValue = AnimatorUtils.GetMoveTo(animatedContainer.RectTransform,
                 _animations.Move, animatedContainer.StartPosition);
@@ -43,8 +46,6 @@ namespace Prime.UI.Animations
 
             animatedContainer.ResetAlpha();
             Animator.InstantlyFade(animatedContainer.CanvasGroup, endFadeValue);
-
-            _onFinishEvent.Invoke();
         }
 
         public async UniTask ExecuteAsync(Container animatedContainer, CancellationToken cancellationToken = default,
@@ -116,7 +117,7 @@ namespace Prime.UI.Animations
             }
 #pragma warning restore CS4014
 
-            await WaitEndOfAnimation(_animations.TotalDuration, cancellationToken);
+            await WaitEndOfAnimation(_animations.Duration, cancellationToken);
 
             _onFinishEvent.Invoke();
             onFinishCallback?.Invoke();

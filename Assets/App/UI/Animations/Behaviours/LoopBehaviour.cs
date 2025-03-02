@@ -1,10 +1,12 @@
+using Cysharp.Threading.Tasks;
+using System.Threading;
 using UnityEngine;
 using System;
 
 namespace Prime.UI.Animations
 {
     [Serializable]
-    public sealed class LoopBehaviour : AnimationBehaviour, IExecutable
+    public sealed class LoopBehaviour : AnimationBehaviour, IAsyncExecutable
     {
         protected override int MaxTweensCount => 8;
 
@@ -15,8 +17,17 @@ namespace Prime.UI.Animations
             Reset();
         }
 
-        public void Execute(Container animatedContainer)
+        public async UniTask ExecuteAsync(Container animatedContainer, CancellationToken cancellationToken = default,
+            Action onStartCallback = null, Action onFinishCallback = null)
         {
+            if (AnimationProcessed)
+            {
+                return;
+            }
+
+            _onStartEvent.Invoke();
+            onStartCallback?.Invoke();
+
             if (_animations.Move.IsEnabled)
             {
                 AddAnimation(Animator.StartLoopMove(animatedContainer.RectTransform, _animations.Move,
@@ -44,11 +55,20 @@ namespace Prime.UI.Animations
                     animatedContainer.StartAlpha)
                     .OnComplete(target: this, target => target.LoopFade(animatedContainer)));
             }
-        }
 
-        public void StopAnimation()
-        {
-            StopAnimations();
+            int cycles = _animations.Cycles;
+
+            if (cycles != AnimatorConstants.CYCLES)
+            {
+                await WaitEndOfAnimation(AnimatorUtils.GetLoopDuration(_animations.Cycles, _animations.Duration), cancellationToken);
+
+                _onFinishEvent.Invoke();
+                onFinishCallback?.Invoke();
+
+                return;
+            }
+
+            SetAnimationProcessed();
         }
 
         private void LoopMove(Container animatedContainer)

@@ -35,7 +35,7 @@ namespace Prime.UI.Animations
             }
         }
 
-        public virtual float TotalDuration
+        public virtual float Duration
         {
             get
             {

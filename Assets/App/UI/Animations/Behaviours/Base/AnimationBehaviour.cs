@@ -27,7 +27,7 @@ namespace Prime.UI.Animations
 
         protected async UniTask WaitEndOfAnimation(float duration, CancellationToken cancellationToken = default)
         {
-            AnimationProcessed = true;
+            SetAnimationProcessed();
 
             try
             {
@@ -42,6 +42,11 @@ namespace Prime.UI.Animations
             }
         }
 
+        protected void SetAnimationProcessed()
+        {
+            AnimationProcessed = true;
+        }
+
         protected void AddAnimation(Tween tween)
         {
             _tweens.Add(tween);
@@ -49,6 +54,8 @@ namespace Prime.UI.Animations
 
         protected virtual void Reset(AnimationType animationType)
         {
+            AnimationProcessed = false;
+
             _onStartEvent?.RemoveAllListeners();
             _onFinishEvent?.RemoveAllListeners();
 
@@ -70,6 +77,7 @@ namespace Prime.UI.Animations
             }
 
             _tweens.Clear();
+            AnimationProcessed = false;
         }
     }
 }

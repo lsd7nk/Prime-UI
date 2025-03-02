@@ -5,7 +5,7 @@ namespace Prime.UI.Animations
 {
     public static class Animator
     {
-        private const float LOOP_DURATION_MULTIPLIER = 0.5f;
+        public const float LOOP_DURATION_MULTIPLIER = 0.5f;
 
         #region animations (loop)
         public static Tween StartLoopMove(RectTransform target, LoopAnimation<Vector3> animation,
