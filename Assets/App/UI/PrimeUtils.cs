@@ -23,6 +23,9 @@ namespace Prime.UI
 
         private const string COMPONENTS_PATH = "GameObject/UI/Prime/";
 
+        private const float REFERENCE_HEIGHT = 1920;
+        private const float REFERENCE_WIDTH = 1080;
+
         public static GameObject GetCanvasAsParent(GameObject selectedObject)
         {
             if (selectedObject == null)
@@ -54,7 +57,7 @@ namespace Prime.UI
 
             canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             canvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
-            canvasScaler.referenceResolution = new Vector2(1080, 1920);
+            canvasScaler.referenceResolution = new Vector2(REFERENCE_WIDTH, REFERENCE_HEIGHT);
 
             gameObject.AddComponent<GraphicRaycaster>();
 
