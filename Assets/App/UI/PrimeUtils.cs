@@ -9,12 +9,14 @@ namespace Prime.UI
         public const string BUTTON_PATH = COMPONENTS_PATH + BUTTON;
         public const string POPUP_PATH = COMPONENTS_PATH + POPUP;
         public const string VIEW_PATH = COMPONENTS_PATH + VIEW;
+        public const string LOOP_PATH = COMPONENTS_PATH + LOOP;
 
         public const string ANIMATED_COMPONENT = "Animated component";
         public const string CONTAINER = "Container";
         public const string BUTTON = "Button";
         public const string POPUP = "Popup";
         public const string VIEW = "View";
+        public const string LOOP = "Loop";
         public const string ICON = "Icon";
 
         public const int COMPONENT_PRIORITY = 0;

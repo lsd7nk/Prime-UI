@@ -45,7 +45,7 @@ namespace Prime.UI.Animations
             }
 #pragma warning restore CS4014
 
-            await WaitEndOfAnimation(_animations.TotalDuration, cancellationToken);
+            await WaitEndOfAnimation(_animations.Duration, cancellationToken);
 
             _onFinishEvent.Invoke();
             onFinishCallback?.Invoke();

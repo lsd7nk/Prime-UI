@@ -35,7 +35,7 @@ namespace Prime.UI.Animations
             }
         }
 
-        public override float TotalDuration
+        public override float Duration
         {
             get
             {

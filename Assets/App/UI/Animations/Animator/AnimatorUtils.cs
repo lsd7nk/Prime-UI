@@ -5,7 +5,10 @@ namespace Prime.UI.Animations
     public static class AnimatorUtils
     {
         #region animations (loop)
-
+        public static float GetLoopDuration(int cycles, float duration)
+        {
+            return cycles * duration * Animator.LOOP_DURATION_MULTIPLIER;
+        }
         #endregion
 
         #region animations (show & hide)
